@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<title>Clinic Check</title>
+<script src="cordova.js"></script>
+<script src="js/jquery.min.js"></script>
+<!-- NB! Comment next line out for actual devices: -->
+<!--<script src="js/jquery-mobile-setup.js"></script>-->
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<script src="js/index.js"></script>
+
+<div data-role="page" id="sign-in" data-theme="a">
+  <div data-role="header">
+    <h1>Welcome to ClinicCheck</h1>
+  </div>
+  <div role="main" class="ui-content">
+
+    <div id="sign-in-form-container">
+
+      <form id="form-sign-in" data-ajax="false">
+
+        <label for="text-basic">Location Code</label>
+        <input name="text-basic" id="text-basic" value="" type="text" required>
+
+        <label for="text-basic2">Username</label>
+        <input name="text-basic2" id="text-basic2" value="" type="text" required>
+
+        <label for="sign-in-input-password">Password</label>
+        <input name="text-basic3" id="sign-in-input-password" value="" type="password" required>
+
+        <button class="ui-shadow ui-btn ui-corner-all">Sign In</button>
+
+        <!--<a href="#menu">menu</a>-->
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+<div data-role="page" id="menu" data-theme="a">
+  <div data-role="header">
+    <h1>ClinicCheck Menu</h1>
+  </div>
+  <div role="main" class="ui-content">
+
+    <ul data-role="listview" data-inset="true">
+      <li><a href="#current-patients">
+        <img src="img/current_patients.png" style="max-width: 48px; max-height: 48px">
+        <h2>Current Patients</h2>
+        <p></p></a>
+      </li>
+      <li><a href="#statistics">
+        <img src="img/statistics.png" style="max-width: 48px; max-height: 48px">
+        <h2>Statistics</h2>
+        <p></p></a>
+      </li>
+      <li><a href="#appointment-calendar">
+        <img src="img/appointment_calendar.png" style="max-width: 48px; max-height: 48px">
+        <h2>Appointment Calendar</h2>
+        <p></p></a>
+      </li>
+      <li><a href="#documents">
+        <img src="img/documents.png" style="max-width: 48px; max-height: 48px">
+        <h2>Documents</h2>
+        <p></p></a>
+      </li>
+      <li><a href="#archive">
+        <img src="img/archive.png" style="max-width: 48px; max-height: 48px">
+        <h2>Archive</h2>
+        <p></p></a>
+      </li>
+      <li><a href="#add-patient">
+        <img src="img/current_patients.png" style="max-width: 48px; max-height: 48px">
+        <h2>Add Patient</h2>
+        <p></p></a>
+      </li>
+      <li><a href="#sign-in">
+        <img src="img/sign_in.png" style="max-width: 48px; max-height: 48px">
+        <h2>Sign Out</h2>
+        <p></p></a>
+      </li>
+    </ul>
+
+  </div>
+
+</div>
+
+<div data-role="page" id="current-patients" data-theme="a">
+  <div data-role="header">
+    <h1>Current Patients</h1>
+  </div>
+  <div role="main" class="ui-content">
+
+    <table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+      <thead>
+      <tr>
+        <th data-priority="2">Code</th>
+        <th data-priority="1">Last Name</th>
+        <th data-priority="2">Forename</th>
+        <th data-priority="5">Healthcare Provider</th>
+        <th data-priority="5">Last Visit</th>
+        <th data-priority="3">Next Appointment</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>xxx</td>
+        <td>Doe</td>
+        <td><a href="#female-record">Jane</a></td>
+        <td>xxx</td>
+        <td>2016-01-08</td>
+        <td>2016-03-01</td>
+      </tr>
+      <tr>
+        <td>yyy</td>
+        <td>yyy</td>
+        <td>yyy</td>
+        <td>yyy</td>
+        <td>yyy</td>
+        <td>yyy</td>
+      </tr>
+      <tr>
+        <td>zzz</td>
+        <td>zzz</td>
+        <td>zzz</td>
+        <td>zzz</td>
+        <td>zzz</td>
+        <td>zzz</td>
+      </tr>
+      <tbody>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+<div data-role="page" id="statistics" data-theme="a">
+  <div data-role="header">
+    <h1>Statistics</h1>
+  </div>
+  <div role="main" class="ui-content">
+    <p>Not implemented.</p>
+  </div>
+</div>
+
+<div data-role="page" id="appointment-calendar" data-theme="a">
+  <div data-role="header">
+    <h1>Appointment Calender</h1>
+  </div>
+  <div role="main" class="ui-content">
+    <p>Not implemented.</p>
+  </div>
+</div>
+
+<div data-role="page" id="documents" data-theme="a">
+  <div data-role="header">
+    <h1>Documents</h1>
+  </div>
+  <div role="main" class="ui-content">
+    <p>Not implemented.</p>
+  </div>
+</div>
+
+<div data-role="page" id="archive" data-theme="a">
+  <div data-role="header">
+    <h1>Archive</h1>
+  </div>
+  <div role="main" class="ui-content">
+    <p>Not implemented.</p>
+  </div>
+</div>
+
+<div data-role="page" id="add-patient" data-theme="a">
+  <div data-role="header">
+    <h1>Add Patient</h1>
+  </div>
+  <div role="main" class="ui-content">
+    <p>Not implemented.</p>
+  </div>
+</div>
+
+<div data-role="page" id="female-record" data-theme="a">
+  <div data-role="header">
+    <h1>Jane Doe</h1>
+  </div>
+  <div role="main" class="ui-content">
+    <div class="ui-grid-a my-breakpoint">
+      <div class="ui-block-a">
+
+
+
+
+      </div>
+      <div class="ui-block-b">ANC and PNC tables</div>
+    </div>
+  </div>
+</div>
