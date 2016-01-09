@@ -11,4 +11,5 @@
         <allow-intent href="market:*" />
     </platform>
     <engine name="android" spec="~5.0.0" />
+    <plugin name="cordova-plugin-camera" spec="~2.0.0" />
 </widget>
