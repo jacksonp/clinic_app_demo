@@ -8,7 +8,7 @@
 <script src="cordova.js"></script>
 <script src="js/jquery.min.js"></script>
 <!-- NB! Comment next line out for actual devices: -->
-<!--<script src="js/jquery-mobile-setup.js"></script>-->
+<script src="js/jquery-mobile-setup.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <script src="js/index.js"></script>
 
@@ -33,7 +33,7 @@
 
         <button class="ui-shadow ui-btn ui-corner-all">Sign In</button>
 
-        <!--<a href="#menu">menu</a>-->
+        <a href="#menu">menu</a>
 
       </form>
 
@@ -54,6 +54,11 @@
         <h2>Current Patients</h2>
         <p></p></a>
       </li>
+      <li><a href="#add-patient">
+        <img src="img/current_patients.png" style="max-width: 48px; max-height: 48px">
+        <h2>Add Patient</h2>
+        <p></p></a>
+      </li>
       <li><a href="#statistics">
         <img src="img/statistics.png" style="max-width: 48px; max-height: 48px">
         <h2>Statistics</h2>
@@ -72,11 +77,6 @@
       <li><a href="#archive">
         <img src="img/archive.png" style="max-width: 48px; max-height: 48px">
         <h2>Archive</h2>
-        <p></p></a>
-      </li>
-      <li><a href="#add-patient">
-        <img src="img/current_patients.png" style="max-width: 48px; max-height: 48px">
-        <h2>Add Patient</h2>
         <p></p></a>
       </li>
       <li><a href="#sign-in">
@@ -139,6 +139,53 @@
 
 </div>
 
+<div data-role="page" id="add-patient" data-theme="a">
+  <div data-role="header">
+    <h1>Add Patient</h1>
+  </div>
+  <div role="main" class="ui-content">
+
+    <div class="ui-grid-a my-breakpoint">
+      <div class="ui-block-a">
+
+        <label for="add-last-name">Last Name</label>
+        <input name="text-basic" id="add-last-name" value="" type="text" required>
+
+        <label for="add-first-name">First Name</label>
+        <input name="text-basic" id="add-first-name" value="" type="text" required>
+
+        <label for="add-phone">Phone</label>
+        <input name="text-basic" id="add-phone" value="" type="tel">
+
+        <label for="add-dob">Date of Birth</label>
+        <input name="text-basic" id="add-dob" value="" type="date">
+
+        <label for="add-village">Village</label>
+        <input name="text-basic" id="add-village" value="" type="text">
+
+        <label for="add-family">Family Members</label>
+        <textarea cols="40" rows="8" name="textarea" id="add-family"></textarea>
+
+        <label for="add-health-issues">Majory Health Issues</label>
+        <textarea cols="40" rows="8" name="textarea" id="add-health-issues"></textarea>
+
+        <label for="add-medication">Medication</label>
+        <textarea cols="40" rows="8" name="textarea" id="add-medication"></textarea>
+
+      </div>
+      <div class="ui-block-b">
+
+        <p>Photo</p>
+
+        <label for="add-notes">Notes</label>
+        <textarea cols="40" rows="8" name="textarea" id="add-notes"></textarea>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div data-role="page" id="statistics" data-theme="a">
   <div data-role="header">
     <h1>Statistics</h1>
@@ -175,15 +222,6 @@
   </div>
 </div>
 
-<div data-role="page" id="add-patient" data-theme="a">
-  <div data-role="header">
-    <h1>Add Patient</h1>
-  </div>
-  <div role="main" class="ui-content">
-    <p>Not implemented.</p>
-  </div>
-</div>
-
 <div data-role="page" id="female-record" data-theme="a">
   <div data-role="header">
     <h1>Jane Doe</h1>
@@ -191,8 +229,6 @@
   <div role="main" class="ui-content">
     <div class="ui-grid-a my-breakpoint">
       <div class="ui-block-a">
-
-
 
 
       </div>
