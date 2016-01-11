@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -145,33 +146,39 @@
   </div>
   <div role="main" class="ui-content">
 
-    <div class="ui-grid-a my-breakpoint">
-      <div class="ui-block-a" style="padding-right: 1em">
+    <form id="form-add-patient" data-ajax="false">
 
-        <label for="add-first-name">First Name</label>
-        <input name="text-basic" id="add-first-name" value="" type="text" required>
+      <div class="ui-grid-a my-breakpoint">
+        <div class="ui-block-a" style="padding-right: 1em">
 
-        <label for="add-last-name">Last Name</label>
-        <input name="text-basic" id="add-last-name" value="" type="text" required>
+          <label for="add-first-name">First Name</label>
+          <input name="first_name" id="add-first-name" value="" type="text" required>
 
-        <label for="add-dob">Date of Birth</label>
-        <input name="text-basic" id="add-dob" value="" type="date" required>
+          <label for="add-last-name">Last Name</label>
+          <input name="last_name" id="add-last-name" value="" type="text" required>
 
+          <label for="add-dob">Date of Birth</label>
+          <input name="dob" id="add-dob" value="" type="date" required>
+
+        </div>
+        <div class="ui-block-b" style="padding-right: 1em">
+
+          <fieldset data-role="controlgroup">
+            <legend>Gender</legend>
+            <input name="gender" id="radio-choice-1" value="female" checked="checked" type="radio">
+            <label for="radio-choice-1">Female</label>
+            <input name="gender" id="radio-choice-2" value="male" type="radio">
+            <label for="radio-choice-2">Male</label>
+          </fieldset>
+
+        </div>
       </div>
-      <div class="ui-block-b" style="padding-right: 1em">
 
-        <fieldset data-role="controlgroup">
-          <legend>Gender</legend>
-          <input name="radio-choice-1" id="radio-choice-1" value="choice-1" checked="checked" type="radio">
-          <label for="radio-choice-1">Female</label>
-          <input name="radio-choice-1" id="radio-choice-2" value="choice-2" type="radio">
-          <label for="radio-choice-2">Male</label>
-        </fieldset>
+      <button class="ui-shadow ui-btn ui-corner-all">Add Patient</button>
 
-      </div>
-    </div>
+      <p>This is a demo app, do not use for confidential information.</p>
 
-    <button id="button-add-patient" class="ui-shadow ui-btn ui-corner-all">Add Patient</button>
+    </form>
 
   </div>
 </div>
@@ -186,18 +193,10 @@
     <div class="ui-grid-a my-breakpoint">
       <div class="ui-block-a" style="padding-right: 1em">
 
-
-        <label for="add-first-name">First Name</label>
-        <input name="text-basic" id="add-first-name" value="" type="text" required>
-
-        <label for="add-last-name">Last Name</label>
-        <input name="text-basic" id="add-last-name" value="" type="text" required>
+        <span id="edit-gender" style="font-size: xx-large"></span> Born <span id="edit-dob"></span>
 
         <label for="add-phone">Phone</label>
         <input name="text-basic" id="add-phone" value="" type="tel">
-
-        <label for="add-dob">Date of Birth</label>
-        <input name="text-basic" id="add-dob" value="" type="date">
 
         <label for="add-village">Village</label>
         <input name="text-basic" id="add-village" value="" type="text">
