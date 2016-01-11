@@ -71,13 +71,11 @@
 
         } else if (toPageId === 'appointment-calendar') {
 
-
           setTimeout(function () {
             $('#calendar').fullCalendar({
               editable: true
             });
           }, 200);
-
 
         }
       }
