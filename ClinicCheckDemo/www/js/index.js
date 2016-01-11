@@ -1,9 +1,31 @@
+if (!localStorage.records) {
+  localStorage.records = JSON.stringify([]);
+}
+
+
 (function () {
   'use strict';
+
+  function addRecord (record) {
+    var recs = getRecords();
+    recs.push(record);
+    localStorage.records = JSON.stringify(recs);
+  }
+
+  function getRecords () {
+    return JSON.parse(localStorage.records);
+  }
+
+  function getRecord (index) {
+    var recs = getRecords();
+    return recs[index];
+  }
 
   var
     deviceReady = false,
     domReady    = false;
+
+  var editRecordId = 0;
 
   var editPatient = {};
 
@@ -15,10 +37,17 @@
   $(function () {
     domReady = true;
 
+    var $currentPatientsTBody = $('#table-column-toggle').children('tbody');
+
     $('#form-sign-in').submit(function (e) {
       e.preventDefault();
       $.mobile.changePage('#menu');
       $('#sign-in-input-password').val('');
+    });
+
+    $currentPatientsTBody.on('click', 'tr', function () {
+      editRecordId = $(this).attr('data-id');
+      $.mobile.changePage('#edit-patient');
     });
 
     $('#form-add-patient').submit(function (e) {
@@ -27,6 +56,7 @@
       $.each($(this).serializeArray(), function (_, kv) {
         editPatient[kv.name] = kv.value;
       });
+      addRecord(editPatient);
       $.mobile.changePage('#edit-patient');
       this.reset();
     });
@@ -57,17 +87,20 @@
           toPageId   = ui.toPage[0].id;
 
         if (toPageId === 'edit-patient') {
+
+          var editRecord = getRecord(editRecordId);
+
           var $editPage = $('#edit-patient');
-          $editPage.find('h1').text(editPatient.first_name + ' ' + editPatient.last_name);
+          $editPage.find('h1').text(editRecord.first_name + ' ' + editRecord.last_name);
 
 
-          var dob = moment(editPatient.dob);
+          var dob = moment(editRecord.dob);
           var now = moment();
           var age = now.diff(dob, 'years');
 
-          $editPage.find('#edit-dob').text(editPatient.dob + ' (age: ' + age + ')');
+          $editPage.find('#edit-dob').text(editRecord.dob + ' (age: ' + age + ')');
 
-          $editPage.find('#edit-gender').text(editPatient.gender === 'male' ? '♂' : '♀');
+          $editPage.find('#edit-gender').text(editRecord.gender === 'male' ? '♂' : '♀');
 
         } else if (toPageId === 'appointment-calendar') {
 
@@ -76,6 +109,24 @@
               editable: true
             });
           }, 200);
+
+        } else if (toPageId === 'current-patients') {
+
+          var records = getRecords();
+
+          var html = '';
+          records.forEach(function (r, i) {
+            html += '<tr data-id="' + i + '">' +
+              '<td>xxx</td>' +
+              '<td>' + r.first_name + '</td>' +
+              '<td>' + r.last_name + '</td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '</tr>';
+          });
+
+          $currentPatientsTBody.html(html);
 
         }
       }

@@ -9,14 +9,14 @@ body {
 }
 
 /* stack all grids below 40em (640px) */
-@media all and (max-width: 700px) {
+@media all and (max-width : 700px) {
   .my-breakpoint .ui-block-a,
   .my-breakpoint .ui-block-b,
   .my-breakpoint .ui-block-c,
   .my-breakpoint .ui-block-d,
   .my-breakpoint .ui-block-e {
-    width: 100%;
-    float: none;
+    width : 100%;
+    float : none;
   }
 }
 
@@ -24,3 +24,5 @@ body {
   max-width : 30em;
   margin    : 0 auto;
 }
+
+#table-column-toggle tr:nth-child(even) { background-color : #ededed; }
