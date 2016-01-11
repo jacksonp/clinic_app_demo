@@ -59,16 +59,23 @@
         if (toPageId === 'edit-patient') {
           var $editPage = $('#edit-patient');
           $editPage.find('h1').text(editPatient.first_name + ' ' + editPatient.last_name);
-          $editPage.find('#edit-dob').text(editPatient.dob);
+
+
+          var dob = moment(editPatient.dob);
+          var now = moment();
+          var age = now.diff(dob, 'years');
+
+          $editPage.find('#edit-dob').text(editPatient.dob + ' (age: ' + age + ')');
+
           $editPage.find('#edit-gender').text(editPatient.gender === 'male' ? '♂' : '♀');
+
         } else if (toPageId === 'appointment-calendar') {
 
-          $('#calendar').fullCalendar({
-            editable: true
-          });
 
           setTimeout(function () {
-            $('#calendar').fullCalendar('today');
+            $('#calendar').fullCalendar({
+              editable: true
+            });
           }, 200);
 
 
