@@ -53,19 +53,29 @@
       beforetransition: function (event, ui) {
 
         var
-          fromPageId  = ui.prevPage[0].id,
-          toPageId    = ui.toPage[0].id;
+          fromPageId = ui.prevPage[0].id,
+          toPageId   = ui.toPage[0].id;
 
         if (toPageId === 'edit-patient') {
           var $editPage = $('#edit-patient');
           $editPage.find('h1').text(editPatient.first_name + ' ' + editPatient.last_name);
           $editPage.find('#edit-dob').text(editPatient.dob);
           $editPage.find('#edit-gender').text(editPatient.gender === 'male' ? '♂' : '♀');
+        } else if (toPageId === 'appointment-calendar') {
+
+          $('#calendar').fullCalendar({
+            editable: true
+          });
+
+          setTimeout(function () {
+            $('#calendar').fullCalendar('today');
+          }, 200);
+
+
         }
       }
 
     });
-
 
     init();
   });

@@ -4,6 +4,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css">
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <title>Clinic Check</title>
 <script src="cordova.js"></script>
@@ -11,7 +12,6 @@
 <!-- NB! Comment next line out for actual devices: -->
 <script src="js/jquery-mobile-setup.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
-<script src="js/index.js"></script>
 
 <div data-role="page" id="sign-in" data-theme="a">
   <div data-role="header">
@@ -250,10 +250,10 @@
 
 <div data-role="page" id="appointment-calendar" data-theme="a">
   <div data-role="header">
-    <h1>Appointment Calender</h1>
+    <h1>Appointment Calendar</h1>
   </div>
   <div role="main" class="ui-content">
-    <p>Not implemented.</p>
+    <div id="calendar" style="width: 100%"></div>
   </div>
 </div>
 
@@ -274,3 +274,8 @@
     <p>Not implemented.</p>
   </div>
 </div>
+
+
+<script src="js/moment.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/index.js"></script>
