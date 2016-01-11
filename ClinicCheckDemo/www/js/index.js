@@ -6,20 +6,30 @@ if (!localStorage.records) {
 (function () {
   'use strict';
 
+  function getRecords () {
+    return JSON.parse(localStorage.records);
+  }
+
+  function saveRecords (records) {
+    localStorage.records = JSON.stringify(records);
+  }
+
   function addRecord (record) {
     var recs = getRecords();
     var length = recs.push(record);
-    localStorage.records = JSON.stringify(recs);
+    saveRecords(recs);
     return length - 1; // index of new record
-  }
-
-  function getRecords () {
-    return JSON.parse(localStorage.records);
   }
 
   function getRecord (index) {
     var recs = getRecords();
     return recs[index];
+  }
+
+  function saveRecord (index, record) {
+    var recs = getRecords();
+    recs[index] = record;
+    saveRecords(recs);
   }
 
   var
@@ -60,6 +70,18 @@ if (!localStorage.records) {
       this.reset();
     });
 
+    $('#form-edit-patient').submit(function (e) {
+      e.preventDefault();
+      var editFields = {};
+      $.each($(this).serializeArray(), function (_, kv) {
+        editFields[kv.name] = kv.value;
+      });
+      var record = getRecord(editRecordId);
+      $.extend(record, editFields);
+      saveRecord(editRecordId, record);
+      $.mobile.changePage('#current-patients');
+    });
+
     function takePic () {
       var options = {
         targetWidth    : 300,
@@ -92,7 +114,6 @@ if (!localStorage.records) {
           var $editPage = $('#edit-patient');
           $editPage.find('h1').text(editRecord.first_name + ' ' + editRecord.last_name);
 
-
           var dob = moment(editRecord.dob);
           var now = moment();
           var age = now.diff(dob, 'years');
@@ -100,6 +121,13 @@ if (!localStorage.records) {
           $editPage.find('#edit-dob').text(editRecord.dob + ' (age: ' + age + ')');
 
           $editPage.find('#edit-gender').text(editRecord.gender === 'male' ? '♂' : '♀');
+
+          $editPage.find('#edit-phone').val(editRecord.phone);
+          $editPage.find('#edit-village').val(editRecord.village);
+          $editPage.find('#edit-family').val(editRecord.family);
+          $editPage.find('#edit-health-issues').val(editRecord.health_issues);
+          $editPage.find('#edit-medication').val(editRecord.medication);
+          $editPage.find('#edit-notes').val(editRecord.notes);
 
         } else if (toPageId === 'appointment-calendar') {
 
