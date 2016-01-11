@@ -110,6 +110,13 @@ if (!localStorage.records) {
         if (toPageId === 'edit-patient') {
 
           var editRecord = getRecord(editRecordId);
+          var isMale = editRecord.gender === 'male';
+
+          if (isMale) {
+            $('#pregnancy-container').hide();
+          } else {
+            $('#pregnancy-container').show();
+          }
 
           var $editPage = $('#edit-patient');
           $editPage.find('h1').text(editRecord.first_name + ' ' + editRecord.last_name);
@@ -120,11 +127,12 @@ if (!localStorage.records) {
 
           $editPage.find('#edit-dob').text(editRecord.dob + ' (age: ' + age + ')');
 
-          $editPage.find('#edit-gender').text(editRecord.gender === 'male' ? '♂' : '♀');
+          $editPage.find('#edit-gender').text(isMale ? '♂' : '♀');
 
           $editPage.find('#edit-phone').val(editRecord.phone);
           $editPage.find('#edit-village').val(editRecord.village);
           $editPage.find('#edit-family').val(editRecord.family);
+          $editPage.find('#edit-hiv').val(editRecord.hiv);
           $editPage.find('#edit-health-issues').val(editRecord.health_issues);
           $editPage.find('#edit-medication').val(editRecord.medication);
           $editPage.find('#edit-notes').val(editRecord.notes);
