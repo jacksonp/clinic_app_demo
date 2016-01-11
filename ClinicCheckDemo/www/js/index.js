@@ -8,8 +8,9 @@ if (!localStorage.records) {
 
   function addRecord (record) {
     var recs = getRecords();
-    recs.push(record);
+    var length = recs.push(record);
     localStorage.records = JSON.stringify(recs);
+    return length - 1; // index of new record
   }
 
   function getRecords () {
@@ -26,8 +27,6 @@ if (!localStorage.records) {
     domReady    = false;
 
   var editRecordId = 0;
-
-  var editPatient = {};
 
   document.addEventListener('deviceready', function () {
     deviceReady = true;
@@ -52,11 +51,11 @@ if (!localStorage.records) {
 
     $('#form-add-patient').submit(function (e) {
       e.preventDefault();
-      editPatient = {};
+      var newRecord = {};
       $.each($(this).serializeArray(), function (_, kv) {
-        editPatient[kv.name] = kv.value;
+        newRecord[kv.name] = kv.value;
       });
-      addRecord(editPatient);
+      editRecordId = addRecord(newRecord);
       $.mobile.changePage('#edit-patient');
       this.reset();
     });
