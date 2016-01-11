@@ -111,7 +111,7 @@
       <tr>
         <td>xxx</td>
         <td>Doe</td>
-        <td><a href="#female-record">Jane</a></td>
+        <td><a href="#edit-patient">Jane</a></td>
         <td>xxx</td>
         <td>2016-01-08</td>
         <td>2016-03-01</td>
@@ -174,7 +174,8 @@
         </div>
       </div>
 
-      <button class="ui-shadow ui-btn ui-corner-all">Add Patient</button>
+      <a href="#menu" class="ui-shadow ui-btn ui-corner-all ui-btn-inline">Cancel</a>
+      <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-b">Add Patient</button>
 
       <p>This is a demo app, do not use for confidential information.</p>
 
@@ -195,21 +196,6 @@
 
         <span id="edit-gender" style="font-size: xx-large"></span> Born <span id="edit-dob"></span>
 
-        <label for="add-phone">Phone</label>
-        <input name="text-basic" id="add-phone" value="" type="tel">
-
-        <label for="add-village">Village</label>
-        <input name="text-basic" id="add-village" value="" type="text">
-
-        <label for="add-family">Family Members</label>
-        <textarea cols="40" rows="8" name="textarea" id="add-family"></textarea>
-
-        <label for="add-health-issues">Majory Health Issues</label>
-        <textarea cols="40" rows="8" name="textarea" id="add-health-issues"></textarea>
-
-        <label for="add-medication">Medication</label>
-        <textarea cols="40" rows="8" name="textarea" id="add-medication"></textarea>
-
       </div>
       <div class="ui-block-b" style="padding-right: 1em">
 
@@ -217,11 +203,38 @@
 
         <button type="button" id="add-take-photo" class="ui-shadow ui-btn ui-corner-all">Take Photo</button>
 
-        <label for="add-notes">Notes</label>
-        <textarea cols="40" rows="8" name="textarea" id="add-notes"></textarea>
+      </div>
+    </div>
+
+    <div class="ui-grid-a my-breakpoint">
+      <div class="ui-block-a" style="padding-right: 1em">
+
+        <label for="edit-phone">Phone</label>
+        <input name="text-basic" id="edit-phone" value="" type="tel">
+
+        <label for="edit-village">Village</label>
+        <input name="text-basic" id="edit-village" value="" type="text">
+
+        <label for="edit-family">Family Members</label>
+        <textarea cols="40" rows="8" name="textarea" id="edit-family"></textarea>
+
+      </div>
+      <div class="ui-block-b" style="padding-right: 1em">
+
+        <label for="edit-health-issues">Major Health Issues</label>
+        <textarea cols="40" rows="8" name="textarea" id="edit-health-issues"></textarea>
+
+        <label for="edit-medication">Medication</label>
+        <textarea cols="40" rows="8" name="textarea" id="edit-medication"></textarea>
+
+        <label for="edit-notes">Notes</label>
+        <textarea cols="40" rows="8" name="textarea" id="edit-notes"></textarea>
 
       </div>
     </div>
+
+    <a href="#menu" class="ui-shadow ui-btn ui-corner-all ui-btn-inline">Cancel</a>
+    <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-b">Save Changes</button>
 
   </div>
 </div>
@@ -259,20 +272,5 @@
   </div>
   <div role="main" class="ui-content">
     <p>Not implemented.</p>
-  </div>
-</div>
-
-<div data-role="page" id="female-record" data-theme="a">
-  <div data-role="header">
-    <h1>Jane Doe</h1>
-  </div>
-  <div role="main" class="ui-content">
-    <div class="ui-grid-a my-breakpoint">
-      <div class="ui-block-a">
-
-
-      </div>
-      <div class="ui-block-b">ANC and PNC tables</div>
-    </div>
   </div>
 </div>
