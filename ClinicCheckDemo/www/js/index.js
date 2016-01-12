@@ -137,6 +137,8 @@ if (!localStorage.records) {
           $editPage.find('#edit-medication').val(editRecord.medication);
           $editPage.find('#edit-notes').val(editRecord.notes);
 
+          $editPage.find('#add-photo').attr('src', '');
+
         } else if (toPageId === 'appointment-calendar') {
 
           setTimeout(function () {
