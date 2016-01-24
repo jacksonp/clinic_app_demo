@@ -137,69 +137,89 @@
   </div>
   <div role="main" class="ui-content">
 
+    <div class="ui-grid-a my-breakpoint">
+      <div class="ui-block-a" style="padding-right: 1em">
+        <span id="edit-gender" style="font-size: xx-large"></span> Born <span id="edit-dob"></span>
+        <input disabled value="Edit name/dob/gender" type="button">
+      </div>
+      <div class="ui-block-b" style="padding-right: 1em">
+        <img id="add-photo" src="" alt="Photo">
+        <button type="button" id="add-take-photo" class="ui-shadow ui-btn ui-corner-all">Take Photo</button>
+      </div>
+    </div>
+
+
     <form id="form-edit-patient" data-ajax="false">
+      <div data-role="collapsible" data-collapsed="false">
+        <h4>Record Details</h4>
 
-      <div class="ui-grid-a my-breakpoint">
-        <div class="ui-block-a" style="padding-right: 1em">
 
-          <span id="edit-gender" style="font-size: xx-large"></span> Born <span id="edit-dob"></span>
+        <div class="ui-grid-a my-breakpoint">
+          <div class="ui-block-a" style="padding-right: 1em">
 
-          <input disabled value="Edit name/dob/gender" type="button">
+            <label for="edit-phone">Phone</label>
+            <input name="phone" id="edit-phone" value="" type="tel">
 
+            <label for="edit-village">Village</label>
+            <input name="village" id="edit-village" value="" type="text">
+
+            <label for="edit-family">Family Members</label>
+            <textarea cols="40" rows="8" name="family" id="edit-family"></textarea>
+
+            <label for="edit-hiv">HIV Status</label>
+            <input name="hiv" id="edit-hiv" value="" type="text">
+
+          </div>
+          <div class="ui-block-b" style="padding-right: 1em">
+
+            <label for="edit-health-issues">Major Health Issues</label>
+            <textarea cols="40" rows="8" name="health_issues" id="edit-health-issues"></textarea>
+
+            <label for="edit-medication">Medication</label>
+            <textarea cols="40" rows="8" name="medication" id="edit-medication"></textarea>
+
+            <label for="edit-notes">Notes</label>
+            <textarea cols="40" rows="8" name="notes" id="edit-notes"></textarea>
+
+          </div>
         </div>
-        <div class="ui-block-b" style="padding-right: 1em">
 
-          <img id="add-photo" src="" alt="Photo">
-
-          <button type="button" id="add-take-photo" class="ui-shadow ui-btn ui-corner-all">Take Photo</button>
-
-        </div>
-      </div>
-
-      <div class="ui-grid-a my-breakpoint">
-        <div class="ui-block-a" style="padding-right: 1em">
-
-          <label for="edit-phone">Phone</label>
-          <input name="phone" id="edit-phone" value="" type="tel">
-
-          <label for="edit-village">Village</label>
-          <input name="village" id="edit-village" value="" type="text">
-
-          <label for="edit-family">Family Members</label>
-          <textarea cols="40" rows="8" name="family" id="edit-family"></textarea>
-
-          <label for="edit-hiv">HIV Status</label>
-          <input name="hiv" id="edit-hiv" value="" type="text">
-
-        </div>
-        <div class="ui-block-b" style="padding-right: 1em">
-
-          <label for="edit-health-issues">Major Health Issues</label>
-          <textarea cols="40" rows="8" name="health_issues" id="edit-health-issues"></textarea>
-
-          <label for="edit-medication">Medication</label>
-          <textarea cols="40" rows="8" name="medication" id="edit-medication"></textarea>
-
-          <label for="edit-notes">Notes</label>
-          <textarea cols="40" rows="8" name="notes" id="edit-notes"></textarea>
-
-        </div>
-      </div>
-
-      <div id="pregnancy-container">
-
-        <div data-role="collapsible">
-          <h4>Add Pregnancy</h4>
-          <p>Pregnancy data goes here.</p>
-        </div>
+        <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline" disabled>Delete Record</button>
+        <a href="#menu" class="ui-shadow ui-btn ui-corner-all ui-btn-inline">Cancel</a>
+        <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-b">Save Changes</button>
 
       </div>
-
-      <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline" disabled>Delete Record</button>
-      <a href="#menu" class="ui-shadow ui-btn ui-corner-all ui-btn-inline">Cancel</a>
-      <button class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-b">Save Changes</button>
-
     </form>
+
+
+    <form id="form-edit-patient-add-appointment" data-ajax="false">
+      <div data-role="collapsible">
+        <h4>Appointments</h4>
+
+        <div class="ui-grid-a my-breakpoint">
+          <div class="ui-block-a" style="padding-right: 1em">
+
+            <label for="edit-patient-add-appointment-date">Date</label>
+            <input name="date" id="edit-patient-add-appointment-date" value="" type="date" required>
+
+            <label for="edit-patient-add-appointment-time">Time</label>
+            <input name="time" id="edit-patient-add-appointment-time" value="" type="text" required>
+
+            <button class="ui-shadow ui-btn ui-corner-all">Add Appointment</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+    <div id="pregnancy-container">
+
+      <div data-role="collapsible">
+        <h4>Add Pregnancy</h4>
+        <p>Pregnancy data goes here.</p>
+      </div>
+
+    </div>
 
   </div>
 </div>

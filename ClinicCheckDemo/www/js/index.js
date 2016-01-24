@@ -1,6 +1,9 @@
 if (!localStorage.records) {
   localStorage.records = JSON.stringify([]);
 }
+if (!localStorage.appointments) {
+  localStorage.appointments = JSON.stringify([]);
+}
 
 
 (function () {
@@ -30,6 +33,32 @@ if (!localStorage.records) {
     var recs = getRecords();
     recs[index] = record;
     saveRecords(recs);
+  }
+
+  function getAppointments () {
+    return JSON.parse(localStorage.appointments);
+  }
+
+  function saveAppointments (records) {
+    localStorage.appointments = JSON.stringify(records);
+  }
+
+  function addAppointment (record) {
+    var recs = getAppointments();
+    var length = recs.push(record);
+    saveAppointments(recs);
+    return length - 1; // index of new record
+  }
+
+  function getAppointment (index) {
+    var recs = getAppointments();
+    return recs[index];
+  }
+
+  function saveAppointment (index, record) {
+    var recs = getAppointments();
+    recs[index] = record;
+    saveAppointments(recs);
   }
 
   var
@@ -80,6 +109,31 @@ if (!localStorage.records) {
       $.extend(record, editFields);
       saveRecord(editRecordId, record);
       $.mobile.changePage('#current-patients');
+    });
+
+    $('#edit-patient-add-appointment-time').click(function (e) {
+      e.preventDefault();
+      datePicker.show({
+        date: new Date(),
+        mode: 'time'
+      }, function (date) {
+        $('#edit-patient-add-appointment-time').val(moment(date).format('HH:mm'));
+      }, function (error) {
+        console.log('Error: ' + error);
+      });
+    });
+
+    $('#form-edit-patient-add-appointment').submit(function (e) {
+      e.preventDefault();
+      var
+        dateTime = moment($('#edit-patient-add-appointment-date').val() + ' ' + $('#edit-patient-add-appointment-time').val()),
+        name     = $('#edit-patient').find('h1').text();
+      addAppointment({
+        title : name,
+        start : dateTime.toISOString(),
+        allDay: false
+      });
+      $.mobile.changePage('#appointment-calendar');
     });
 
     function takePic () {
@@ -143,7 +197,8 @@ if (!localStorage.records) {
 
           setTimeout(function () {
             $('#calendar').fullCalendar({
-              editable: true
+              editable: true,
+              events  : getAppointments()
             });
           }, 200);
 
