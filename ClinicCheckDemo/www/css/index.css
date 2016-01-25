@@ -26,3 +26,7 @@ body {
 }
 
 #table-column-toggle tr:nth-child(even) { background-color : #ededed; }
+
+.ui-input-text {
+  border : solid 1px !important;
+}
