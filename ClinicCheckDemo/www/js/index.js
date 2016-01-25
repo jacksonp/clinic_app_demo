@@ -146,12 +146,6 @@ if (!localStorage.appointments) {
       $table.table('refresh');
     }
 
-    $('#form-sign-in').submit(function (e) {
-      e.preventDefault();
-      $.mobile.changePage('#menu');
-      $('#sign-in-input-password').val('');
-    });
-
     $currentPatientsTBody.on('click', 'tr', function () {
       editRecordId = $(this).attr('data-id');
       $.mobile.changePage('#edit-patient');
@@ -178,6 +172,13 @@ if (!localStorage.appointments) {
       $.extend(record, editFields);
       saveRecord(editRecordId, record);
       $.mobile.changePage('#current-patients');
+    });
+
+    $('#edit-patient-add-appointment').click(function (e) {
+      e.preventDefault();
+      $.mobile.changePage('#appointment-calendar');
+      $('#collapsible-add-appointment').collapsible('expand');
+      $('#add-appointment-patient-select').val($('#edit-patient').find('h1').text()).selectmenu('refresh');
     });
 
     $('#form-add-pregnancy').submit(function (e) {
@@ -216,11 +217,9 @@ if (!localStorage.appointments) {
           start : moment(dateTime).toISOString(),
           allDay: false
         };
-      //console.log(dateTime);
-      //console.log($('#add-appointment-patient-select').val());
       addAppointment(event);
       $('#collapsible-add-appointment').collapsible('collapse');
-      $calendar.fullCalendar('renderEvent', event);
+      $calendar.fullCalendar('renderEvent', event, true);
     });
 
     function takePic () {
@@ -257,7 +256,7 @@ if (!localStorage.appointments) {
             name       = editRecord.first_name + ' ' + editRecord.last_name,
             isMale     = editRecord.gender === 'male';
 
-          if (isMale) {
+          if (isMale || editRecord.puberty === 'No') {
             $('#pregnancy-container').hide();
           } else {
             updatePregnancyList(editRecord.pregnancies);
@@ -288,9 +287,13 @@ if (!localStorage.appointments) {
           var patientAppointments = getSortedPatientAppointments(name, true);
 
           html = '';
-          patientAppointments.forEach(function (a) {
-            html += '<li>' + a.format('YYYY-MM-DD') + '</li>';
-          });
+          if (patientAppointments.length === 0) {
+            html = 'No appointments.';
+          } else {
+            patientAppointments.forEach(function (a) {
+              html += '<li>' + a.format('YYYY-MM-DD HH:mm') + '</li>';
+            });
+          }
 
           $('#patient-appointments').html(html);
 
