@@ -67,13 +67,32 @@ if (!localStorage.appointments) {
 
   var editRecordId = 0;
 
+  function setClinic () {
+    navigator.notification.prompt('Set the name of the clinic for this tablet.', function (results) {
+      var clinicName = results.input1;
+      if (!clinicName) {
+        setClinic();
+      } else {
+        localStorage.clinic = clinicName;
+      }
+      $('#clinic-name').text(localStorage.clinic);
+    }, 'Clinic Name', ['Set']);
+  }
+
   document.addEventListener('deviceready', function () {
+
     deviceReady = true;
     init();
   }, false);
 
   $(function () {
     domReady = true;
+
+    if (!localStorage.clinic) {
+      setClinic();
+    } else {
+      $('#clinic-name').text(localStorage.clinic);
+    }
 
     var $calendar = $('#calendar');
 

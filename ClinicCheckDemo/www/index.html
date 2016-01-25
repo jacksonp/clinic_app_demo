@@ -21,6 +21,8 @@
   </div>
   <div role="main" class="ui-content">
 
+    <h2 id="clinic-name"></h2>
+
     <ul data-role="listview" data-inset="true">
       <li><a href="#current-patients">
         <img src="img/current_patients.png" style="max-width: 48px; max-height: 48px">
@@ -150,7 +152,7 @@
 
 
     <form id="form-edit-patient" data-ajax="false">
-      <div data-role="collapsible" data-collapsed="false">
+      <div data-role="collapsible" data-collapsed="false" class="ui-alt-icon">
         <h4>Record Details</h4>
 
 
@@ -192,9 +194,8 @@
     </form>
 
 
-    <div data-role="collapsible">
+    <div data-role="collapsible" class="ui-alt-icon">
       <h4>Appointments</h4>
-
       <div class="ui-grid-a my-breakpoint">
         <div class="ui-block-a" style="padding-right: 1em">
           Button to add new appointment (goes to calendar page with patient pre-selected from dropdown.
@@ -206,7 +207,7 @@
     </div>
 
 
-    <div id="pregnancy-container">
+    <div id="pregnancy-container" class="ui-alt-icon">
 
       <div data-role="collapsible">
         <h4>Add Pregnancy</h4>
