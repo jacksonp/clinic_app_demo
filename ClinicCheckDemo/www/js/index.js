@@ -1,14 +1,16 @@
+//<editor-fold desc="Prime localStorage">
 if (!localStorage.records) {
   localStorage.records = JSON.stringify([]);
 }
 if (!localStorage.appointments) {
   localStorage.appointments = JSON.stringify([]);
 }
-
+//</editor-fold>
 
 (function () {
   'use strict';
 
+  //<editor-fold desc="Patient records in localStorage fns">
   function getRecords () {
     return JSON.parse(localStorage.records);
   }
@@ -35,6 +37,9 @@ if (!localStorage.appointments) {
     saveRecords(recs);
   }
 
+  //</editor-fold>
+
+  //<editor-fold desc="Appointment records in localStorage fns">
   function getAppointments () {
     return JSON.parse(localStorage.appointments);
   }
@@ -50,6 +55,20 @@ if (!localStorage.appointments) {
     return length - 1; // index of new record
   }
 
+  function getSortedPatientAppointments (name) {
+    var patientAppointments = [];
+    var appointments = getAppointments();
+    appointments.forEach(function (a) {
+      if (a.title === name) {
+        patientAppointments.push(moment(a.start));
+      }
+    });
+    patientAppointments.sort(function (a, b) {
+      a.isBefore(b);
+    });
+    return patientAppointments;
+  }
+
   function getAppointment (index) {
     var recs = getAppointments();
     return recs[index];
@@ -60,6 +79,8 @@ if (!localStorage.appointments) {
     recs[index] = record;
     saveAppointments(recs);
   }
+
+  //</editor-fold>
 
   var
     deviceReady = false,
@@ -183,6 +204,7 @@ if (!localStorage.appointments) {
 
         var
           html       = '',
+          now        = moment(),
           fromPageId = ui.prevPage[0].id,
           toPageId   = ui.toPage[0].id;
 
@@ -201,7 +223,6 @@ if (!localStorage.appointments) {
           $editPage.find('h1').text(editRecord.first_name + ' ' + editRecord.last_name);
 
           var dob = moment(editRecord.dob);
-          var now = moment();
           var age = now.diff(dob, 'years');
 
           $editPage.find('#edit-dob').text(editRecord.dob + ' (age: ' + age + ')');
@@ -254,13 +275,29 @@ if (!localStorage.appointments) {
           var records = getRecords();
 
           records.forEach(function (r, i) {
+
+            var
+              lastVisit       = '',
+              nextAppointment = '';
+
+            var patientAppointments = getSortedPatientAppointments(r.first_name + ' ' + r.last_name);
+            patientAppointments.forEach(function (a) {
+              if (a.isBefore(now)) {
+                lastVisit = a.format('YYYY-MM-DD');
+              }
+              if (!nextAppointment && a.isAfter(now)) {
+                nextAppointment = a.format('YYYY-MM-DD');
+              }
+            });
+
+
             html += '<tr data-id="' + i + '">' +
               '<td>xxx</td>' +
               '<td>' + r.first_name + '</td>' +
               '<td>' + r.last_name + '</td>' +
               '<td></td>' +
-              '<td></td>' +
-              '<td></td>' +
+              '<td>' + lastVisit + '</td>' +
+              '<td>' + nextAppointment + '</td>' +
               '</tr>';
           });
 
