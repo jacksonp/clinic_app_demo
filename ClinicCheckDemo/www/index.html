@@ -67,7 +67,7 @@
   </div>
   <div role="main" class="ui-content">
 
-    <table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+    <table data-role="table" id="table-current-patients" data-mode="columntoggle" class="ui-responsive table-stroke">
       <thead>
       <tr>
         <th data-priority="2">Code</th>
@@ -211,11 +211,30 @@
         <h4>Pregnancies</h4>
         <div class="ui-grid-a my-breakpoint">
           <div class="ui-block-a" style="padding-right: 1em">
-            <p>List of pregnancies.</p>
-            <ul id="patient-pregnancies"></ul>
+            <p><strong>Pregnancies on Record</strong></p>
+            <table data-role="table" id="table-patient-pregnancies" class="ui-responsive table-stroke">
+              <thead>
+              <tr>
+                <th data-priority="1">Due Date</th>
+                <th data-priority="2">Pre-Pregnancy Weight</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="2">No pregnancies on record.</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="ui-block-b" style="padding-right: 1em">
+            <p><strong>New Pregnancy</strong></p>
             <form id="form-add-pregnancy" data-ajax="false">
+              <div class="ui-field-contain">
+                <label for="add-pregnancy-due-date">Due Date</label>
+                <input name="due_date" id="add-pregnancy-due-date" value="" type="date" required>
+              </div>
+              <div class="ui-field-contain">
+                <label for="add-pregnancy-mother-weight">Pre-pregnancy weight (kg)</label>
+                <input name="mother_weight" id="add-pregnancy-mother-weight" value="" type="number" min="30" max="400" step="0.1">
+              </div>
               <button class="ui-shadow ui-btn ui-btn-b">Add Pregnancy</button>
             </form>
           </div>

@@ -122,11 +122,26 @@ if (!localStorage.appointments) {
       $('#clinic-name').text(localStorage.clinic);
     }
 
-    var $calendar = $('#calendar');
-
     var
-      $currentPatientsTable = $('#table-column-toggle'),
+      $calendar             = $('#calendar'),
+      $currentPatientsTable = $('#table-current-patients'),
       $currentPatientsTBody = $currentPatientsTable.children('tbody');
+
+    function updatePregnancyList (pregnancies) {
+      var
+        $table = $('#table-patient-pregnancies'),
+        html   = '';
+      if (pregnancies) {
+        pregnancies.forEach(function (p, i) {
+          html += '<tr data-id="' + i + '">' +
+            '<td>' + p.due_date + '</td>' +
+            '<td>' + p.mother_weight + '</td>' +
+            '</tr>';
+        });
+      }
+      $table.find('tbody').html(html);
+      $currentPatientsTable.table('refresh');
+    }
 
     $('#form-sign-in').submit(function (e) {
       e.preventDefault();
@@ -160,6 +175,21 @@ if (!localStorage.appointments) {
       $.extend(record, editFields);
       saveRecord(editRecordId, record);
       $.mobile.changePage('#current-patients');
+    });
+
+    $('#form-add-pregnancy').submit(function (e) {
+      e.preventDefault();
+      var record = getRecord(editRecordId);
+      if (!record.pregnancies) {
+        record.pregnancies = [];
+      }
+      record.pregnancies.push({
+        due_date     : $('#add-pregnancy-due-date').val(),
+        mother_weight: $('#add-pregnancy-mother-weight').val()
+      });
+      saveRecord(editRecordId, record);
+      updatePregnancyList(record.pregnancies);
+      this.reset();
     });
 
     $('#add-appointment-time').click(function (e) {
@@ -227,6 +257,7 @@ if (!localStorage.appointments) {
           if (isMale) {
             $('#pregnancy-container').hide();
           } else {
+            updatePregnancyList(editRecord.pregnancies);
             $('#pregnancy-container').show();
           }
 
