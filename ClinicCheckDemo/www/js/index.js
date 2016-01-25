@@ -55,7 +55,8 @@ if (!localStorage.appointments) {
     return length - 1; // index of new record
   }
 
-  function getSortedPatientAppointments (name) {
+  function getSortedPatientAppointments (name, rev) {
+    rev = !!rev;
     var patientAppointments = [];
     var appointments = getAppointments();
     appointments.forEach(function (a) {
@@ -64,7 +65,11 @@ if (!localStorage.appointments) {
       }
     });
     patientAppointments.sort(function (a, b) {
-      a.isBefore(b);
+      if (rev) {
+        return b.isBefore(a) ? -1 : 1;
+      } else {
+        return a.isBefore(b) ? -1 : 1;
+      }
     });
     return patientAppointments;
   }
@@ -210,8 +215,10 @@ if (!localStorage.appointments) {
 
         if (toPageId === 'edit-patient') {
 
-          var editRecord = getRecord(editRecordId);
-          var isMale = editRecord.gender === 'male';
+          var
+            editRecord = getRecord(editRecordId),
+            name       = editRecord.first_name + ' ' + editRecord.last_name,
+            isMale     = editRecord.gender === 'male';
 
           if (isMale) {
             $('#pregnancy-container').hide();
@@ -220,7 +227,7 @@ if (!localStorage.appointments) {
           }
 
           var $editPage = $('#edit-patient');
-          $editPage.find('h1').text(editRecord.first_name + ' ' + editRecord.last_name);
+          $editPage.find('h1').text(name);
 
           var dob = moment(editRecord.dob);
           var age = now.diff(dob, 'years');
@@ -238,6 +245,15 @@ if (!localStorage.appointments) {
           $editPage.find('#edit-notes').val(editRecord.notes);
 
           $editPage.find('#add-photo').attr('src', '');
+
+          var patientAppointments = getSortedPatientAppointments(name, true);
+
+          html = '';
+          patientAppointments.forEach(function (a) {
+            html += '<li>' + a.format('YYYY-MM-DD') + '</li>';
+          });
+
+          $('#patient-appointments').html(html);
 
         } else if (toPageId === 'appointment-calendar') {
 
