@@ -21,6 +21,7 @@ if (!localStorage.appointments) {
 
   function addRecord (record) {
     var recs = getRecords();
+    record.healthcare_provider = 'Dr Jones';
     var length = recs.push(record);
     saveRecords(recs);
     return length - 1; // index of new record
@@ -33,6 +34,7 @@ if (!localStorage.appointments) {
 
   function saveRecord (index, record) {
     var recs = getRecords();
+    record.healthcare_provider = 'Dr Jones';
     recs[index] = record;
     saveRecords(recs);
   }
@@ -122,7 +124,9 @@ if (!localStorage.appointments) {
 
     var $calendar = $('#calendar');
 
-    var $currentPatientsTBody = $('#table-column-toggle').children('tbody');
+    var
+      $currentPatientsTable = $('#table-column-toggle'),
+      $currentPatientsTBody = $currentPatientsTable.children('tbody');
 
     $('#form-sign-in').submit(function (e) {
       e.preventDefault();
@@ -311,13 +315,15 @@ if (!localStorage.appointments) {
               '<td>xxx</td>' +
               '<td>' + r.first_name + '</td>' +
               '<td>' + r.last_name + '</td>' +
-              '<td></td>' +
+              '<td>' + r.healthcare_provider + '</td>' +
               '<td>' + lastVisit + '</td>' +
               '<td>' + nextAppointment + '</td>' +
               '</tr>';
           });
 
           $currentPatientsTBody.html(html);
+
+          $currentPatientsTable.table('refresh');
 
         }
       }
