@@ -20,8 +20,11 @@ if (!localStorage.appointments) {
   }
 
   function addRecord (record) {
-    var recs = getRecords();
     record.healthcare_provider = 'Dr Jones';
+    var age = moment().diff(record.dob, 'years');
+    console.log(age);
+    record.puberty = age >= 12 ? 'Yes' : 'No';
+    var recs = getRecords();
     var length = recs.push(record);
     saveRecords(recs);
     return length - 1; // index of new record
@@ -140,7 +143,7 @@ if (!localStorage.appointments) {
         });
       }
       $table.find('tbody').html(html);
-      $currentPatientsTable.table('refresh');
+      $table.table('refresh');
     }
 
     $('#form-sign-in').submit(function (e) {
@@ -274,6 +277,7 @@ if (!localStorage.appointments) {
           $editPage.find('#edit-phone').val(editRecord.phone);
           $editPage.find('#edit-village').val(editRecord.village);
           $editPage.find('#edit-family').val(editRecord.family);
+          $editPage.find('#edit-puberty').val(editRecord.puberty).slider('refresh');
           $editPage.find('#edit-hiv').val(editRecord.hiv);
           $editPage.find('#edit-health-issues').val(editRecord.health_issues);
           $editPage.find('#edit-medication').val(editRecord.medication);

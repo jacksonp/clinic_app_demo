@@ -159,14 +159,27 @@
         <div class="ui-grid-a my-breakpoint">
           <div class="ui-block-a" style="padding-right: 1em">
 
-            <label for="edit-phone">Phone</label>
-            <input name="phone" id="edit-phone" value="" type="tel">
 
-            <label for="edit-village">Village</label>
-            <input name="village" id="edit-village" value="" type="text">
+            <div class="ui-field-contain">
+              <label for="edit-phone">Phone</label>
+              <input name="phone" id="edit-phone" value="" type="tel">
+            </div>
+
+            <div class="ui-field-contain">
+              <label for="edit-village">Village</label>
+              <input name="village" id="edit-village" value="" type="text">
+            </div>
 
             <label for="edit-family">Family Members</label>
             <textarea cols="40" rows="8" name="family" id="edit-family"></textarea>
+
+            <div class="ui-field-contain">
+              <label for="edit-puberty">Puberty</label>
+              <select name="puberty" id="edit-puberty" data-role="slider">
+                <option>No</option>
+                <option>Yes</option>
+              </select>
+            </div>
 
             <label for="edit-hiv">HIV Status</label>
             <input name="hiv" id="edit-hiv" value="" type="text">
@@ -220,7 +233,9 @@
               </tr>
               </thead>
               <tbody>
-                <tr><td colspan="2">No pregnancies on record.</td></tr>
+              <tr>
+                <td colspan="2">No pregnancies on record.</td>
+              </tr>
               </tbody>
             </table>
           </div>
