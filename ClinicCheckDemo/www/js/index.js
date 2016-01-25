@@ -75,6 +75,8 @@ if (!localStorage.appointments) {
   $(function () {
     domReady = true;
 
+    var $calendar = $('#calendar');
+
     var $currentPatientsTBody = $('#table-column-toggle').children('tbody');
 
     $('#form-sign-in').submit(function (e) {
@@ -111,13 +113,13 @@ if (!localStorage.appointments) {
       $.mobile.changePage('#current-patients');
     });
 
-    $('#edit-patient-add-appointment-time').click(function (e) {
+    $('#add-appointment-time').click(function (e) {
       e.preventDefault();
       datePicker.show({
         date: new Date(),
         mode: 'time'
       }, function (date) {
-        $('#edit-patient-add-appointment-time').val(moment(date).format('HH:mm'));
+        $('#add-appointment-time').val(moment(date).format('HH:mm'));
       }, function (error) {
         console.log('Error: ' + error);
       });
@@ -126,14 +128,17 @@ if (!localStorage.appointments) {
     $('#form-edit-patient-add-appointment').submit(function (e) {
       e.preventDefault();
       var
-        dateTime = moment($('#edit-patient-add-appointment-date').val() + ' ' + $('#edit-patient-add-appointment-time').val()),
-        name     = $('#edit-patient').find('h1').text();
-      addAppointment({
-        title : name,
-        start : dateTime.toISOString(),
-        allDay: false
-      });
-      $.mobile.changePage('#appointment-calendar');
+        dateTime = $('#add-appointment-date').val() + ' ' + $('#add-appointment-time').val(),
+        event    = {
+          title : $('#add-appointment-patient-select').val(),
+          start : moment(dateTime).toISOString(),
+          allDay: false
+        };
+      //console.log(dateTime);
+      //console.log($('#add-appointment-patient-select').val());
+      addAppointment(event);
+      $('#collapsible-add-appointment').collapsible('collapse');
+      $calendar.fullCalendar('renderEvent', event);
     });
 
     function takePic () {
@@ -158,6 +163,7 @@ if (!localStorage.appointments) {
       beforetransition: function (event, ui) {
 
         var
+          html       = '',
           fromPageId = ui.prevPage[0].id,
           toPageId   = ui.toPage[0].id;
 
@@ -195,10 +201,32 @@ if (!localStorage.appointments) {
 
         } else if (toPageId === 'appointment-calendar') {
 
+          getRecords().forEach(function (r) {
+            html += '<option>' + r.first_name + ' ' + r.last_name + '</option>';
+          });
+
+          $('#add-appointment-patient-select').html(html).selectmenu('refresh');
+
+
           setTimeout(function () {
-            $('#calendar').fullCalendar({
-              editable: true,
-              events  : getAppointments()
+            $calendar.fullCalendar({
+              header          : {
+                left  : 'prev,next today',
+                center: 'title',
+                right : 'month,basicWeek,basicDay'
+              },
+              theme           : true,
+              themeButtonIcons: false,
+              editable        : true,
+              events          : getAppointments(),
+              dayClick        : function (date, jsEvent, view) {
+                $calendar.fullCalendar('gotoDate', date);
+                $calendar.fullCalendar('changeView', 'basicDay');
+              },
+              eventClick      : function (calEvent, jsEvent, view) {
+                $calendar.fullCalendar('gotoDate', calEvent.start);
+                $calendar.fullCalendar('changeView', 'basicDay');
+              }
             });
           }, 200);
 
@@ -206,7 +234,6 @@ if (!localStorage.appointments) {
 
           var records = getRecords();
 
-          var html = '';
           records.forEach(function (r, i) {
             html += '<tr data-id="' + i + '">' +
               '<td>xxx</td>' +
