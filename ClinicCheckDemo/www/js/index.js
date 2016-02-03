@@ -319,6 +319,7 @@ if (!localStorage.appointments) {
               editable        : true,
               events          : getAppointments(),
               timeFormat      : 'H(:mm)',
+              timezone        : 'local',
               dayClick        : function (date, jsEvent, view) {
                 $calendar.fullCalendar('gotoDate', date);
                 $calendar.fullCalendar('changeView', 'basicDay');
