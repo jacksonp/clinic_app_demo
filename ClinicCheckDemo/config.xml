@@ -10,8 +10,8 @@
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
-    <engine name="android" spec="~5.0.0" />
-    <plugin name="cordova-plugin-camera" spec="~2.0.0" />
+    <engine name="android" spec="~5.1.0" />
+    <plugin name="cordova-plugin-camera" spec="~2.1.0" />
     <plugin name="cordova-plugin-datepicker" spec="~0.9.3" />
     <plugin name="cordova-plugin-dialogs" spec="~1.2.0" />
 </widget>
