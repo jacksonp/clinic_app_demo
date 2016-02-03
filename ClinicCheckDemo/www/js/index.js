@@ -199,8 +199,9 @@ if (!localStorage.appointments) {
     $('#add-appointment-time').click(function (e) {
       e.preventDefault();
       datePicker.show({
-        date: new Date(),
-        mode: 'time'
+        date    : new Date(),
+        mode    : 'time',
+        is24Hour: true
       }, function (date) {
         $('#add-appointment-time').val(moment(date).format('HH:mm'));
       }, function (error) {
@@ -317,6 +318,7 @@ if (!localStorage.appointments) {
               themeButtonIcons: false,
               editable        : true,
               events          : getAppointments(),
+              timeFormat      : 'H(:mm)',
               dayClick        : function (date, jsEvent, view) {
                 $calendar.fullCalendar('gotoDate', date);
                 $calendar.fullCalendar('changeView', 'basicDay');
