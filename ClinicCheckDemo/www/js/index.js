@@ -22,7 +22,6 @@ if (!localStorage.appointments) {
   function addRecord (record) {
     record.healthcare_provider = 'Dr Jones';
     var age = moment().diff(record.dob, 'years');
-    console.log(age);
     record.puberty = age >= 12 ? 'Yes' : 'No';
     var recs = getRecords();
     var length = recs.push(record);
@@ -170,6 +169,7 @@ if (!localStorage.appointments) {
       });
       var record = getRecord(editRecordId);
       $.extend(record, editFields);
+      record.photo = $('#add-photo').attr('src');
       saveRecord(editRecordId, record);
       $.mobile.changePage('#current-patients');
     });
@@ -284,6 +284,10 @@ if (!localStorage.appointments) {
           $editPage.find('#edit-notes').val(editRecord.notes);
 
           $editPage.find('#add-photo').attr('src', '');
+
+          if (editRecord.photo) {
+            $('#add-photo').removeClass('no-display').attr('src', editRecord.photo);
+          }
 
           var patientAppointments = getSortedPatientAppointments(name, true);
 
