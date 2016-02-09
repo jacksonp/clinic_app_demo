@@ -30,3 +30,11 @@ body {
 .ui-input-text {
   border : solid 1px !important;
 }
+
+.table-of-nums td {
+  text-align: right;
+}
+
+.table-of-nums th {
+  text-align: left;
+}
