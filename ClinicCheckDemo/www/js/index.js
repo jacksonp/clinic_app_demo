@@ -3,7 +3,7 @@ if (!localStorage.records) {
   localStorage.records = JSON.stringify({});
 }
 if (!localStorage.appointments) {
-  localStorage.appointments = JSON.stringify([]);
+  localStorage.appointments = JSON.stringify({});
 }
 //</editor-fold>
 
@@ -66,17 +66,20 @@ function makeUUID () {
   }
 
   function addAppointment (record) {
-    var recs = getAppointments();
-    var length = recs.push(record);
+    var
+      uuid = makeUUID(),
+      recs = getAppointments();
+    recs[uuid] = record;
     saveAppointments(recs);
-    return length - 1; // index of new record
+    return uuid;
   }
 
   function getSortedPatientAppointments (uuid, rev) {
     rev = !!rev;
     var patientAppointments = [];
     var appointments = getAppointments();
-    appointments.forEach(function (a) {
+    Object.keys(appointments).forEach(function (key) {
+      var a = appointments[key];
       if (a.patientUUID === uuid) {
         patientAppointments.push(a);
       }
@@ -94,14 +97,14 @@ function makeUUID () {
     return patientAppointments;
   }
 
-  function getAppointment (index) {
+  function getAppointment (uuid) {
     var recs = getAppointments();
-    return recs[index];
+    return recs[uuid];
   }
 
-  function saveAppointment (index, record) {
+  function saveAppointment (uuid, record) {
     var recs = getAppointments();
-    recs[index] = record;
+    recs[uuid] = record;
     saveAppointments(recs);
   }
 
@@ -211,6 +214,7 @@ function makeUUID () {
       this.reset();
     });
 
+
     $('#add-appointment-time').click(function (e) {
       e.preventDefault();
       datePicker.show({
@@ -219,6 +223,19 @@ function makeUUID () {
         is24Hour: true
       }, function (date) {
         $('#add-appointment-time').val(moment(date).format('HH:mm'));
+      }, function (error) {
+        console.log('Error: ' + error);
+      });
+    });
+
+    $('#health-visit-time').click(function (e) {
+      e.preventDefault();
+      datePicker.show({
+        date    : new Date(),
+        mode    : 'time',
+        is24Hour: true
+      }, function (date) {
+        $('#health-visit-time').val(moment(date).format('HH:mm'));
       }, function (error) {
         console.log('Error: ' + error);
       });
@@ -317,9 +334,10 @@ function makeUUID () {
 
           html = '';
           if (patientAppointments.length === 0) {
-            html = 'No appointments.';
+            html = 'No health visits on record.';
           } else {
-            patientAppointments.forEach(function (a) {
+            Object.keys(patientAppointments).forEach(function (key) {
+              var a = patientAppointments[key];
               html += '<li><a href="#healthVisitPopup" data-rel="popup" data-position-to="window"><h4>' + a.reason + '</h4><p>' + moment(a.start).format('YYYY-MM-DD HH:mm') + '</p></a></li>';
             });
           }
