@@ -162,7 +162,7 @@ function makeUUID () {
       $('#health-visit-reason').val(appointment.reason);
       $('#health-visit-treatment').val(appointment.treatment);
       $('#health-visit-referral').val(appointment.referral);
-      $('#health-visit-follow-up').val(appointment.follow_up);
+      $('#health-visit-follow_up').val(appointment.follow_up);
 
     });
 
@@ -171,8 +171,25 @@ function makeUUID () {
       $('#health-visit-reason').val('');
       $('#health-visit-treatment').val('');
       $('#health-visit-referral').val('');
-      $('#health-visit-follow-up').val('');
+      $('#health-visit-follow_up').val('');
     });
+
+    function refreshPatientAppointments () {
+
+      var
+        patientAppointments = getSortedPatientAppointments(editRecordUUID, true),
+        html                = '';
+
+      if (patientAppointments.length === 0) {
+        html = 'No health visits on record.';
+      } else {
+        patientAppointments.forEach(function (a) {
+          html += '<li><a href="#healthVisitPopup" data-rel="popup" data-position-to="window" data-uuid="' + a.uuid + '"><h4>' + a.reason + '</h4><p>' + moment(a.start).format('YYYY-MM-DD HH:mm') + '</p></a></li>';
+        });
+      }
+
+      $('#patient-appointments').html(html).listview('refresh');
+    }
 
     $healthVisitPopup.find('form').submit(function (e) {
       e.preventDefault();
@@ -194,8 +211,7 @@ function makeUUID () {
       } else {
         saveAppointment(editAppointmentUUID, event);
       }
-      console.log(editAppointmentUUID);
-      console.log(event);
+      refreshPatientAppointments();
       $healthVisitPopup.popup('close');
     });
 
@@ -380,18 +396,7 @@ function makeUUID () {
             $('#add-photo').removeClass('no-display').attr('src', editRecord.photo);
           }
 
-          var patientAppointments = getSortedPatientAppointments(editRecordUUID, true);
-
-          html = '';
-          if (patientAppointments.length === 0) {
-            html = 'No health visits on record.';
-          } else {
-            patientAppointments.forEach(function (a) {
-              html += '<li><a href="#healthVisitPopup" data-rel="popup" data-position-to="window" data-uuid="' + a.uuid + '"><h4>' + a.reason + '</h4><p>' + moment(a.start).format('YYYY-MM-DD HH:mm') + '</p></a></li>';
-            });
-          }
-
-          $('#patient-appointments').html(html).listview('refresh');
+          refreshPatientAppointments(editRecordUUID);
 
         } else if (toPageId === 'appointment-calendar') {
 

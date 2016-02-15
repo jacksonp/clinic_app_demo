@@ -18,34 +18,45 @@
 <div id="healthVisitPopup" data-theme="a" data-dismissible="false">
   <form data-ajax="false">
     <div style="padding:10px 20px;">
-      <h3>Health Visit</h3>
 
-      <div class="ui-field-contain">
-        <label for="health-visit-date">Date</label>
-        <input name="date" id="health-visit-date" value="" type="date" required>
+      <div class="ui-grid-a my-breakpoint">
+        <div class="ui-block-a" style="padding-right: 1em">
+
+          <h3>Health Visit</h3>
+
+          <div class="ui-field-contain">
+            <label for="health-visit-date">Date</label>
+            <input name="date" id="health-visit-date" value="" type="date" required>
+          </div>
+
+          <div class="ui-field-contain">
+            <label for="health-visit-time">Time</label>
+            <input name="time" id="health-visit-time" value="" type="text" required>
+          </div>
+
+          <div class="ui-field-contain">
+            <label for="health-visit-reason">Reason</label>
+            <input name="date" id="health-visit-reason" value="" type="text">
+          </div>
+
+        </div>
+        <div class="ui-block-b" style="padding-right: 1em">
+
+          <label for="health-visit-treatment">Treatment</label>
+          <textarea cols="40" rows="8" name="treatment" id="health-visit-treatment"></textarea>
+
+          <label for="health-visit-referral">Referral</label>
+          <textarea cols="40" rows="8" name="referral" id="health-visit-referral"></textarea>
+
+          <label for="health-visit-follow_up">Follow-up</label>
+          <textarea cols="40" rows="8" name="follow_up" id="health-visit-follow_up"></textarea>
+
+        </div>
       </div>
-
-      <div class="ui-field-contain">
-        <label for="health-visit-time">Time</label>
-        <input name="time" id="health-visit-time" value="" type="text" required>
-      </div>
-
-      <div class="ui-field-contain">
-        <label for="health-visit-reason">Reason</label>
-        <input name="date" id="health-visit-reason" value="" type="text">
-      </div>
-
-      <label for="health-visit-treatment">Treatment</label>
-      <textarea cols="40" rows="8" name="treatment" id="health-visit-treatment"></textarea>
-
-      <label for="health-visit-referral">Referral</label>
-      <textarea cols="40" rows="8" name="referral" id="health-visit-referral"></textarea>
-
-      <label for="health-visit-follow_up">Follow-up</label>
-      <textarea cols="40" rows="8" name="follow_up" id="health-visit-follow_up"></textarea>
 
       <a href="#" class="ui-btn ui-btn-inline" data-rel="back">Back</a>
       <button class="ui-btn ui-btn-inline ui-btn-b">Save</button>
+
     </div>
   </form>
 </div>
@@ -246,7 +257,8 @@
       <div class="ui-grid-a my-breakpoint">
         <div class="ui-block-a" style="padding-right: 1rem">
           <a id="edit-patient-add-appointment" class="ui-btn ui-btn-b">Add Appointment</a>
-          <a id="edit-patient-add-visit" href="#healthVisitPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-b">Add Visit</a>
+          <a id="edit-patient-add-visit" href="#healthVisitPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-b">Add
+            Visit</a>
         </div>
         <div class="ui-block-b" style="padding-right: 1em">
           <ul id="patient-appointments" data-role="listview" data-inset="true"></ul>
