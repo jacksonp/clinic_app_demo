@@ -20,23 +20,6 @@ function makeUUID () {
 
   $('input[type="date"]').val(moment().format('YYYY-MM-DD'));
 
-  $('#healthVisitPopup').enhanceWithin().popup();
-
-  $('#patient-appointments').delegate('a', 'click', function (event) {
-    var
-      appointmentUUID  = $(this).attr('data-uuid'),
-      appointment      = getAppointment(appointmentUUID),
-      $appointmentForm = $('#healthVisitPopup').find('form'),
-      appointmentStart = moment(appointment.start);
-
-    $('#health-visit-date').val(appointmentStart.format('YYYY-MM-DD'));
-    $('#health-visit-time').val(appointmentStart.format('HH:mm'));
-    $('#health-visit-reason').val(appointment.reason);
-    $('#health-visit-treatment').val(appointment.treatment);
-    $('#health-visit-referral').val(appointment.referral);
-    $('#health-visit-follow-up').val(appointment.follow_up);
-
-  });
 
   //<editor-fold desc="Patient records in localStorage fns">
   function getRecords () {
@@ -128,10 +111,10 @@ function makeUUID () {
   //</editor-fold>
 
   var
-    deviceReady = false,
-    domReady    = false;
-
-  var editRecordUUID = 0;
+    deviceReady         = false,
+    domReady            = false,
+    editRecordUUID      = 0,
+    editAppointmentUUID = null;
 
   function setClinic () {
     navigator.notification.prompt('Set the name of the clinic for this tablet.', function (results) {
@@ -163,7 +146,58 @@ function makeUUID () {
     var
       $calendar             = $('#calendar'),
       $currentPatientsTable = $('#table-current-patients'),
-      $currentPatientsTBody = $currentPatientsTable.children('tbody');
+      $currentPatientsTBody = $currentPatientsTable.children('tbody'),
+      $healthVisitPopup     = $('#healthVisitPopup');
+
+    $healthVisitPopup.enhanceWithin().popup();
+
+    $('#patient-appointments').delegate('a', 'click', function () {
+      var
+        editAppointmentUUID = $(this).attr('data-uuid'),
+        appointment         = getAppointment(editAppointmentUUID),
+        appointmentStart    = moment(appointment.start);
+
+      $('#health-visit-date').val(appointmentStart.format('YYYY-MM-DD'));
+      $('#health-visit-time').val(appointmentStart.format('HH:mm'));
+      $('#health-visit-reason').val(appointment.reason);
+      $('#health-visit-treatment').val(appointment.treatment);
+      $('#health-visit-referral').val(appointment.referral);
+      $('#health-visit-follow-up').val(appointment.follow_up);
+
+    });
+
+    $('#edit-patient-add-visit').click(function () {
+      editAppointmentUUID = null;
+      $('#health-visit-reason').val('');
+      $('#health-visit-treatment').val('');
+      $('#health-visit-referral').val('');
+      $('#health-visit-follow-up').val('');
+    });
+
+    $healthVisitPopup.find('form').submit(function (e) {
+      e.preventDefault();
+      var
+        appointmentReason = $('#health-visit-reason').val(),
+        dateTime          = $('#health-visit-date').val() + ' ' + $('#health-visit-time').val(),
+        event             = {
+          patientUUID: editRecordUUID,
+          title      : getRecord(editRecordUUID).name + ' - ' + appointmentReason,
+          reason     : appointmentReason,
+          treatment  : $('#health-visit-treatment').val(),
+          referral   : $('#health-visit-referral').val(),
+          follow_up  : $('#health-visit-follow_up').val(),
+          start      : moment(dateTime).toISOString(),
+          allDay     : false
+        };
+      if (!editAppointmentUUID) {
+        addAppointment(event);
+      } else {
+        saveAppointment(editAppointmentUUID, event);
+      }
+      console.log(editAppointmentUUID);
+      console.log(event);
+      $healthVisitPopup.popup('close');
+    });
 
     function updatePregnancyList (pregnancies) {
       var
@@ -303,10 +337,9 @@ function makeUUID () {
 
         var
           records,
-          html       = '',
-          now        = moment(),
-          fromPageId = ui.prevPage[0].id,
-          toPageId   = ui.toPage[0].id;
+          html     = '',
+          now      = moment(),
+          toPageId = ui.toPage[0].id;
 
         if (toPageId === 'edit-patient') {
 
