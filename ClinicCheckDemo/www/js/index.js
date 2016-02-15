@@ -194,7 +194,7 @@ function makeUUID () {
     $healthVisitPopup.find('form').submit(function (e) {
       e.preventDefault();
       var
-        patient = getRecord(editRecordUUID),
+        patient           = getRecord(editRecordUUID),
         appointmentReason = $('#health-visit-reason').val(),
         dateTime          = $('#health-visit-date').val() + ' ' + $('#health-visit-time').val(),
         event             = {
@@ -212,7 +212,17 @@ function makeUUID () {
       } else {
         saveAppointment(editAppointmentUUID, event);
       }
-      refreshPatientAppointments();
+      if ($.mobile.pageContainer.pagecontainer('getActivePage').attr('id') === 'edit-patient') {
+        refreshPatientAppointments();
+      } else {
+
+        $calendar.fullCalendar('removeEvents');
+        $calendar.fullCalendar('addEventSource', $.map(getAppointments(), function (value, index) {
+          value.uuid = index;
+          return [value];
+        }));
+        $calendar.fullCalendar('rerenderEvents');
+      }
       $healthVisitPopup.popup('close');
     });
 
@@ -419,7 +429,8 @@ function makeUUID () {
               theme           : true,
               themeButtonIcons: false,
               editable        : true,
-              events          : $.map(getAppointments(), function(value, index) {
+              events          : $.map(getAppointments(), function (value, index) {
+                value.uuid = index;
                 return [value];
               }),
               timeFormat      : 'H(:mm)',
@@ -429,8 +440,21 @@ function makeUUID () {
                 $calendar.fullCalendar('changeView', 'basicDay');
               },
               eventClick      : function (calEvent, jsEvent, view) {
-                $calendar.fullCalendar('gotoDate', calEvent.start);
-                $calendar.fullCalendar('changeView', 'basicDay');
+                editRecordUUID = calEvent.patientUUID;
+                editAppointmentUUID = calEvent.uuid;
+
+                var
+                  appointment      = getAppointment(editAppointmentUUID),
+                  appointmentStart = moment(appointment.start);
+
+                $('#health-visit-date').val(appointmentStart.format('YYYY-MM-DD'));
+                $('#health-visit-time').val(appointmentStart.format('HH:mm'));
+                $('#health-visit-reason').val(appointment.reason);
+                $('#health-visit-treatment').val(appointment.treatment);
+                $('#health-visit-referral').val(appointment.referral);
+                $('#health-visit-follow_up').val(appointment.follow_up);
+
+                $('#healthVisitPopup').popup('open');
               }
             });
           }, 200);
