@@ -1,11 +1,18 @@
 //<editor-fold desc="Prime localStorage">
 if (!localStorage.records) {
-  localStorage.records = JSON.stringify([]);
+  localStorage.records = JSON.stringify({});
 }
 if (!localStorage.appointments) {
   localStorage.appointments = JSON.stringify([]);
 }
 //</editor-fold>
+
+function makeUUID () {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
 
 (function () {
   'use strict';
@@ -23,21 +30,22 @@ if (!localStorage.appointments) {
     record.healthcare_provider = 'Dr Jones';
     var age = moment().diff(record.dob, 'years');
     record.puberty = age >= 12 ? 'Yes' : 'No';
-    var recs = getRecords();
-    var length = recs.push(record);
+    var
+      uuid = makeUUID(),
+      recs = getRecords();
+    recs[uuid] = record;
     saveRecords(recs);
-    return length - 1; // index of new record
+    return uuid;
   }
 
-  function getRecord (index) {
+  function getRecord (uuid) {
     var recs = getRecords();
-    return recs[index];
+    return recs[uuid];
   }
 
-  function saveRecord (index, record) {
+  function saveRecord (uuid, record) {
     var recs = getRecords();
-    record.healthcare_provider = 'Dr Jones';
-    recs[index] = record;
+    recs[uuid] = record;
     saveRecords(recs);
   }
 
@@ -95,7 +103,7 @@ if (!localStorage.appointments) {
     deviceReady = false,
     domReady    = false;
 
-  var editRecordId = 0;
+  var editRecordUUID = 0;
 
   function setClinic () {
     navigator.notification.prompt('Set the name of the clinic for this tablet.', function (results) {
@@ -146,7 +154,7 @@ if (!localStorage.appointments) {
     }
 
     $currentPatientsTBody.on('click', 'tr', function () {
-      editRecordId = $(this).attr('data-id');
+      editRecordUUID = $(this).attr('data-id');
       $.mobile.changePage('#edit-patient');
     });
 
@@ -156,7 +164,7 @@ if (!localStorage.appointments) {
       $.each($(this).serializeArray(), function (_, kv) {
         newRecord[kv.name] = kv.value;
       });
-      editRecordId = addRecord(newRecord);
+      editRecordUUID = addRecord(newRecord);
       $.mobile.changePage('#edit-patient');
       this.reset();
     });
@@ -167,9 +175,9 @@ if (!localStorage.appointments) {
       $.each($(this).serializeArray(), function (_, kv) {
         editFields[kv.name] = kv.value;
       });
-      var record = getRecord(editRecordId);
+      var record = getRecord(editRecordUUID);
       $.extend(record, editFields);
-      saveRecord(editRecordId, record);
+      saveRecord(editRecordUUID, record);
       $.mobile.changePage('#current-patients');
     });
 
@@ -182,7 +190,7 @@ if (!localStorage.appointments) {
 
     $('#form-add-pregnancy').submit(function (e) {
       e.preventDefault();
-      var record = getRecord(editRecordId);
+      var record = getRecord(editRecordUUID);
       if (!record.pregnancies) {
         record.pregnancies = [];
       }
@@ -190,7 +198,7 @@ if (!localStorage.appointments) {
         due_date     : $('#add-pregnancy-due-date').val(),
         mother_weight: $('#add-pregnancy-mother-weight').val()
       });
-      saveRecord(editRecordId, record);
+      saveRecord(editRecordUUID, record);
       updatePregnancyList(record.pregnancies);
       this.reset();
     });
@@ -233,9 +241,9 @@ if (!localStorage.appointments) {
         function (imageData) {
           var newSrc = 'data:image/jpeg;base64,' + imageData;
           $('#add-photo').removeClass('no-display').attr('src', newSrc);
-          var record = getRecord(editRecordId);
+          var record = getRecord(editRecordUUID);
           record.photo = newSrc;
-          saveRecord(editRecordId, record);
+          saveRecord(editRecordUUID, record);
         }, function (message) {
           //Failure handler: could just be "Camera cancelled" - do nothing.
         }, options);
@@ -248,6 +256,7 @@ if (!localStorage.appointments) {
       beforetransition: function (event, ui) {
 
         var
+          records,
           html       = '',
           now        = moment(),
           fromPageId = ui.prevPage[0].id,
@@ -256,7 +265,7 @@ if (!localStorage.appointments) {
         if (toPageId === 'edit-patient') {
 
           var
-            editRecord = getRecord(editRecordId),
+            editRecord = getRecord(editRecordUUID),
             name       = editRecord.first_name + ' ' + editRecord.last_name,
             isMale     = editRecord.gender === 'male';
 
@@ -307,7 +316,10 @@ if (!localStorage.appointments) {
 
         } else if (toPageId === 'appointment-calendar') {
 
-          getRecords().forEach(function (r) {
+          records = getRecords();
+
+          Object.keys(records).forEach(function (key, index) {
+            var r = records[key];
             html += '<option>' + r.first_name + ' ' + r.last_name + '</option>';
           });
 
@@ -340,9 +352,11 @@ if (!localStorage.appointments) {
 
         } else if (toPageId === 'current-patients') {
 
-          var records = getRecords();
+          records = getRecords();
 
-          records.forEach(function (r, i) {
+          Object.keys(records).forEach(function (key, index) {
+
+            var r = records[key];
 
             var
               lastVisit       = '',
@@ -359,7 +373,7 @@ if (!localStorage.appointments) {
             });
 
 
-            html += '<tr data-id="' + i + '">' +
+            html += '<tr data-id="' + key + '">' +
               '<td>xxx</td>' +
               '<td>' + r.first_name + '</td>' +
               '<td>' + r.last_name + '</td>' +
