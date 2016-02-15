@@ -17,6 +17,11 @@ function makeUUID () {
 (function () {
   'use strict';
 
+
+  $('input[type="date"]').val(moment().format('YYYY-MM-DD'));
+
+  $('#healthVisitPopup').enhanceWithin().popup();
+
   //<editor-fold desc="Patient records in localStorage fns">
   function getRecords () {
     return JSON.parse(localStorage.records);
@@ -315,11 +320,11 @@ function makeUUID () {
             html = 'No appointments.';
           } else {
             patientAppointments.forEach(function (a) {
-              html += '<li>' + moment(a.start).format('YYYY-MM-DD HH:mm') + ' - ' + a.reason + '</li>';
+              html += '<li><a href="#healthVisitPopup" data-rel="popup" data-position-to="window"><h4>' + a.reason + '</h4><p>' + moment(a.start).format('YYYY-MM-DD HH:mm') + '</p></a></li>';
             });
           }
 
-          $('#patient-appointments').html(html);
+          $('#patient-appointments').html(html).listview('refresh');
 
         } else if (toPageId === 'appointment-calendar') {
 
