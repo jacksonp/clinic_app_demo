@@ -67,12 +67,12 @@ function makeUUID () {
     return length - 1; // index of new record
   }
 
-  function getSortedPatientAppointments (name, rev) {
+  function getSortedPatientAppointments (uuid, rev) {
     rev = !!rev;
     var patientAppointments = [];
     var appointments = getAppointments();
     appointments.forEach(function (a) {
-      if (a.title === name) {
+      if (a.patientUUID === uuid) {
         patientAppointments.push(moment(a.start));
       }
     });
@@ -219,11 +219,13 @@ function makeUUID () {
     $('#form-edit-patient-add-appointment').submit(function (e) {
       e.preventDefault();
       var
-        dateTime = $('#add-appointment-date').val() + ' ' + $('#add-appointment-time').val(),
-        event    = {
-          title : $('#add-appointment-patient-select').val(),
-          start : moment(dateTime).toISOString(),
-          allDay: false
+        $selectPatient = $('#add-appointment-patient-select'),
+        dateTime       = $('#add-appointment-date').val() + ' ' + $('#add-appointment-time').val(),
+        event          = {
+          patientUUID: $selectPatient.val(),
+          title      : $selectPatient.find('option:selected').text(),
+          start      : moment(dateTime).toISOString(),
+          allDay     : false
         };
       addAppointment(event);
       $('#collapsible-add-appointment').collapsible('collapse');
@@ -301,7 +303,7 @@ function makeUUID () {
             $('#add-photo').removeClass('no-display').attr('src', editRecord.photo);
           }
 
-          var patientAppointments = getSortedPatientAppointments(name, true);
+          var patientAppointments = getSortedPatientAppointments(editRecordUUID, true);
 
           html = '';
           if (patientAppointments.length === 0) {
@@ -317,12 +319,10 @@ function makeUUID () {
         } else if (toPageId === 'appointment-calendar') {
 
           records = getRecords();
-
-          Object.keys(records).forEach(function (key, index) {
+          Object.keys(records).forEach(function (key) {
             var r = records[key];
-            html += '<option>' + r.first_name + ' ' + r.last_name + '</option>';
+            html += '<option value="' + key + '">' + r.first_name + ' ' + r.last_name + '</option>';
           });
-
           $('#add-appointment-patient-select').html(html).selectmenu('refresh');
 
 
@@ -354,15 +354,15 @@ function makeUUID () {
 
           records = getRecords();
 
-          Object.keys(records).forEach(function (key, index) {
+          Object.keys(records).forEach(function (uuid) {
 
-            var r = records[key];
+            var r = records[uuid];
 
             var
               lastVisit       = '',
               nextAppointment = '';
 
-            var patientAppointments = getSortedPatientAppointments(r.first_name + ' ' + r.last_name);
+            var patientAppointments = getSortedPatientAppointments(uuid);
             patientAppointments.forEach(function (a) {
               if (a.isBefore(now)) {
                 lastVisit = a.format('YYYY-MM-DD');
@@ -373,7 +373,7 @@ function makeUUID () {
             });
 
 
-            html += '<tr data-id="' + key + '">' +
+            html += '<tr data-id="' + uuid + '">' +
               '<td>xxx</td>' +
               '<td>' + r.first_name + '</td>' +
               '<td>' + r.last_name + '</td>' +
