@@ -194,11 +194,12 @@ function makeUUID () {
     $healthVisitPopup.find('form').submit(function (e) {
       e.preventDefault();
       var
+        patient = getRecord(editRecordUUID),
         appointmentReason = $('#health-visit-reason').val(),
         dateTime          = $('#health-visit-date').val() + ' ' + $('#health-visit-time').val(),
         event             = {
           patientUUID: editRecordUUID,
-          title      : getRecord(editRecordUUID).name + ' - ' + appointmentReason,
+          title      : patient.first_name + ' ' + patient.last_name + ' - ' + appointmentReason,
           reason     : appointmentReason,
           treatment  : $('#health-visit-treatment').val(),
           referral   : $('#health-visit-referral').val(),
@@ -418,7 +419,9 @@ function makeUUID () {
               theme           : true,
               themeButtonIcons: false,
               editable        : true,
-              events          : getAppointments(),
+              events          : $.map(getAppointments(), function(value, index) {
+                return [value];
+              }),
               timeFormat      : 'H(:mm)',
               timezone        : 'local',
               dayClick        : function (date, jsEvent, view) {
