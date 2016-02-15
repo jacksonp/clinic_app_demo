@@ -74,13 +74,14 @@ function makeUUID () {
     return uuid;
   }
 
-  function getSortedPatientAppointments (uuid, rev) {
+  function getSortedPatientAppointments (patientUUID, rev) {
     rev = !!rev;
     var patientAppointments = [];
     var appointments = getAppointments();
-    Object.keys(appointments).forEach(function (key) {
-      var a = appointments[key];
-      if (a.patientUUID === uuid) {
+    Object.keys(appointments).forEach(function (appointmentUUID) {
+      var a = appointments[appointmentUUID];
+      if (a.patientUUID === patientUUID) {
+        a.uuid = appointmentUUID;
         patientAppointments.push(a);
       }
     });
@@ -336,9 +337,8 @@ function makeUUID () {
           if (patientAppointments.length === 0) {
             html = 'No health visits on record.';
           } else {
-            Object.keys(patientAppointments).forEach(function (key) {
-              var a = patientAppointments[key];
-              html += '<li><a href="#healthVisitPopup" data-rel="popup" data-position-to="window"><h4>' + a.reason + '</h4><p>' + moment(a.start).format('YYYY-MM-DD HH:mm') + '</p></a></li>';
+            patientAppointments.forEach(function (a) {
+              html += '<li><a href="#healthVisitPopup" data-rel="popup" data-position-to="window" data-uuid="' + a.uuid + '"><h4>' + a.reason + '</h4><p>' + moment(a.start).format('YYYY-MM-DD HH:mm') + '</p></a></li>';
             });
           }
 
