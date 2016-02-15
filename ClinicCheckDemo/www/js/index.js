@@ -22,6 +22,22 @@ function makeUUID () {
 
   $('#healthVisitPopup').enhanceWithin().popup();
 
+  $('#patient-appointments').delegate('a', 'click', function (event) {
+    var
+      appointmentUUID  = $(this).attr('data-uuid'),
+      appointment      = getAppointment(appointmentUUID),
+      $appointmentForm = $('#healthVisitPopup').find('form'),
+      appointmentStart = moment(appointment.start);
+
+    $('#health-visit-date').val(appointmentStart.format('YYYY-MM-DD'));
+    $('#health-visit-time').val(appointmentStart.format('HH:mm'));
+    $('#health-visit-reason').val(appointment.reason);
+    $('#health-visit-treatment').val(appointment.treatment);
+    $('#health-visit-referral').val(appointment.referral);
+    $('#health-visit-follow-up').val(appointment.follow_up);
+
+  });
+
   //<editor-fold desc="Patient records in localStorage fns">
   function getRecords () {
     return JSON.parse(localStorage.records);
