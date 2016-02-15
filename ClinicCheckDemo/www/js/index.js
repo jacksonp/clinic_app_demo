@@ -73,14 +73,17 @@ function makeUUID () {
     var appointments = getAppointments();
     appointments.forEach(function (a) {
       if (a.patientUUID === uuid) {
-        patientAppointments.push(moment(a.start));
+        patientAppointments.push(a);
       }
     });
     patientAppointments.sort(function (a, b) {
+      var
+        aa = moment(a.start),
+        bb = moment(b.start);
       if (rev) {
-        return b.isBefore(a) ? -1 : 1;
+        return bb.isBefore(aa) ? -1 : 1;
       } else {
-        return a.isBefore(b) ? -1 : 1;
+        return aa.isBefore(bb) ? -1 : 1;
       }
     });
     return patientAppointments;
@@ -219,11 +222,13 @@ function makeUUID () {
     $('#form-edit-patient-add-appointment').submit(function (e) {
       e.preventDefault();
       var
-        $selectPatient = $('#add-appointment-patient-select'),
-        dateTime       = $('#add-appointment-date').val() + ' ' + $('#add-appointment-time').val(),
-        event          = {
+        $selectPatient    = $('#add-appointment-patient-select'),
+        appointmentReason = $('#add-appointment-reason').val(),
+        dateTime          = $('#add-appointment-date').val() + ' ' + $('#add-appointment-time').val(),
+        event             = {
           patientUUID: $selectPatient.val(),
-          title      : $selectPatient.find('option:selected').text(),
+          title      : $selectPatient.find('option:selected').text() + ' - ' + appointmentReason,
+          reason     : appointmentReason,
           start      : moment(dateTime).toISOString(),
           allDay     : false
         };
@@ -310,7 +315,7 @@ function makeUUID () {
             html = 'No appointments.';
           } else {
             patientAppointments.forEach(function (a) {
-              html += '<li>' + a.format('YYYY-MM-DD HH:mm') + '</li>';
+              html += '<li>' + moment(a.start).format('YYYY-MM-DD HH:mm') + ' - ' + a.reason + '</li>';
             });
           }
 
@@ -364,6 +369,7 @@ function makeUUID () {
 
             var patientAppointments = getSortedPatientAppointments(uuid);
             patientAppointments.forEach(function (a) {
+              a = moment(a.start);
               if (a.isBefore(now)) {
                 lastVisit = a.format('YYYY-MM-DD');
               }
