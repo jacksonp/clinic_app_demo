@@ -169,7 +169,6 @@ if (!localStorage.appointments) {
       });
       var record = getRecord(editRecordId);
       $.extend(record, editFields);
-      record.photo = $('#add-photo').attr('src');
       saveRecord(editRecordId, record);
       $.mobile.changePage('#current-patients');
     });
@@ -232,7 +231,11 @@ if (!localStorage.appointments) {
       };
       navigator.camera.getPicture(
         function (imageData) {
-          $('#add-photo').removeClass('no-display').attr('src', 'data:image/jpeg;base64,' + imageData);
+          var newSrc = 'data:image/jpeg;base64,' + imageData;
+          $('#add-photo').removeClass('no-display').attr('src', newSrc);
+          var record = getRecord(editRecordId);
+          record.photo = newSrc;
+          saveRecord(editRecordId, record);
         }, function (message) {
           //Failure handler: could just be "Camera cancelled" - do nothing.
         }, options);
