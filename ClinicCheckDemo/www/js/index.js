@@ -147,9 +147,12 @@ function makeUUID () {
       $calendar             = $('#calendar'),
       $currentPatientsTable = $('#table-current-patients'),
       $currentPatientsTBody = $currentPatientsTable.children('tbody'),
-      $healthVisitPopup     = $('#healthVisitPopup');
+      $healthVisitPopup     = $('#healthVisitPopup'),
+      $pregnancyPopup       = $('#pregnancyPopup');
 
     $healthVisitPopup.enhanceWithin().popup();
+    $pregnancyPopup.enhanceWithin().popup();
+
 
     $('#patient-appointments').delegate('a', 'click', function () {
       var

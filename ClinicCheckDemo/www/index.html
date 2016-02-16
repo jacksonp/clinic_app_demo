@@ -61,6 +61,141 @@
   </form>
 </div>
 
+<div id="pregnancyPopup" data-theme="a" data-dismissible="false">
+  <form data-ajax="false">
+    <div style="padding:10px 20px;">
+
+      <h3>Antenatal</h3>
+
+      <div class="ui-grid-a my-breakpoint">
+        <div class="ui-block-a" style="padding-right: 1em">
+
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-due-date">Due Date</label>
+            <input name="due_date" id="add-pregnancy-due-date" value="" type="date">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-mother-weight">Pre-pregnancy weight (kg)</label>
+            <input name="mother_weight" id="add-pregnancy-mother-weight" value="" type="number" min="30" max="400" step="0.1">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-last-period">Date of last period</label>
+            <input name="last_period_date" id="add-pregnancy-last-period" value="" type="date">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-edd">EDD</label>
+            <input name="edd" id="add-pregnancy-edd" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-anemia">Anemia</label>
+            <input name="anemia" id="add-pregnancy-anemia" value="" type="text">
+          </div>
+
+
+        </div>
+        <div class="ui-block-b" style="padding-right: 1em">
+
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-hypertension">Hypertension</label>
+            <input name="hypertension" id="add-pregnancy-hypertension" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-diabetes">Diabetes</label>
+            <input name="diabetes" id="add-pregnancy-diabetes" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-hiv">HIV</label>
+            <input name="hiv" id="add-pregnancy-hiv" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-malaria">Malaria</label>
+            <input name="malaria" id="add-pregnancy-malaria" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-syphilis">Syphilis</label>
+            <input name="syphilis" id="add-pregnancy-syphilis" value="" type="text">
+          </div>
+
+        </div>
+      </div>
+
+      <h3>Outcome</h3>
+
+      <div class="ui-grid-a my-breakpoint">
+        <div class="ui-block-a" style="padding-right: 1em">
+
+          <fieldset data-role="controlgroup">
+            <legend></legend>
+            <input name="add-pregnancy-outcome" id="add-pregnancy-outcome-living" value="Living" checked="checked" type="radio">
+            <label for="add-pregnancy-outcome-living">Living</label>
+            <input name="add-pregnancy-outcome" id="add-pregnancy-outcome-ai" value="Abortion - Induced" type="radio">
+            <label for="add-pregnancy-outcome-ai">Abortion - Induced</label>
+            <input name="add-pregnancy-outcome" id="add-pregnancy-outcome-as" value="Abortion - Spontaneous" type="radio">
+            <label for="add-pregnancy-outcome-as">Abortion - Spontaneous</label>
+          </fieldset>
+
+          <label>
+            <input name="add-pregnancy-ectopic" type="checkbox">Ectopic
+          </label>
+
+          <label>
+            <input name="add-pregnancy-multiple-births" type="checkbox">Multiple Births
+          </label>
+
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-delivery-date">Date of Delivery</label>
+            <input name="delivery_date" id="add-pregnancy-delivery-date" value="" type="date">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-ga-weeks">GA (weeks)</label>
+            <input name="ga_weeks" id="add-pregnancy-ga-weeks" value="" type="number" min="0" max="60" step="1">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-labour_length">Length of Labour</label>
+            <input name="labour_length" id="add-pregnancy-labour_length" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-birth-weight">Birth weight (kg)</label>
+            <input name="birth_weight" id="add-pregnancy-birth-weight" value="" type="number" min="1" max="20" step="0.1">
+          </div>
+
+        </div>
+        <div class="ui-block-b" style="padding-right: 1em">
+
+          <fieldset data-role="controlgroup">
+            <legend>Sex</legend>
+            <input name="gender" id="sex-choice-1" value="female" checked="checked" type="radio">
+            <label for="sex-choice-1">Female</label>
+            <input name="gender" id="sex-choice-2" value="male" type="radio">
+            <label for="sex-choice-2">Male</label>
+          </fieldset>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-delivery_type">Type of Delivery</label>
+            <input name="delivery_type" id="add-pregnancy-delivery_type" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-delivery_place">Place of Delivery</label>
+            <input name="delivery_place" id="add-pregnancy-delivery_place" value="" type="text">
+          </div>
+          <div class="ui-field-contain">
+            <label for="add-pregnancy-sba_present">SBA Present</label>
+            <input name="sba_present" id="add-pregnancy-sba_present" value="" type="text">
+          </div>
+          <label for="add-pregnancy-complications-mother">Complications - Mother</label>
+          <textarea cols="40" rows="8" name="complications_mother" id="add-pregnancy-complications-mother"></textarea>
+          <label for="add-pregnancy-complications-newborn">Complications - Newborn</label>
+          <textarea cols="40" rows="8" name="complications_newborn" id="add-pregnancy-complications-newborn"></textarea>
+
+        </div>
+      </div>
+
+      <a href="#" class="ui-btn ui-btn-inline" data-rel="back">Back</a>
+      <button class="ui-btn ui-btn-inline ui-btn-b">Save</button>
+
+    </div>
+  </form>
+</div>
+
 <div data-role="page" id="menu" data-theme="a">
   <div data-role="header">
     <h1>ClinicCheck Demo</h1>
@@ -287,18 +422,8 @@
             </table>
           </div>
           <div class="ui-block-b" style="padding-right: 1em">
-            <p><strong>New Pregnancy</strong></p>
-            <form id="form-add-pregnancy" data-ajax="false">
-              <div class="ui-field-contain">
-                <label for="add-pregnancy-due-date">Due Date</label>
-                <input name="due_date" id="add-pregnancy-due-date" value="" type="date" required>
-              </div>
-              <div class="ui-field-contain">
-                <label for="add-pregnancy-mother-weight">Pre-pregnancy weight (kg)</label>
-                <input name="mother_weight" id="add-pregnancy-mother-weight" value="" type="number" min="30" max="400" step="0.1">
-              </div>
-              <button class="ui-shadow ui-btn ui-btn-b">Add Pregnancy</button>
-            </form>
+            <a id="edit-patient-add-pregnancy" href="#pregnancyPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-b">Add
+              Pregnancy</a>
           </div>
         </div>
       </div>
