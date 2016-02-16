@@ -235,9 +235,23 @@ function makeUUID () {
         html   = '';
       if (pregnancies) {
         pregnancies.forEach(function (p, i) {
+
+          var complications = p.complications_mother;
+          if (complications) {
+            complications += '<br>';
+          }
+          complications += p.complications_newborn;
+
           html += '<tr data-id="' + i + '">' +
-            '<td>' + p.due_date + '</td>' +
-            '<td>' + p.mother_weight + '</td>' +
+            '<td>' + p.delivery_date + '</td>' +
+            '<td>' + p.ga_weeks + '</td>' +
+            '<td>' + p.labour_length + '</td>' +
+            '<td>' + p.birth_weight + '</td>' +
+            '<td>' + p.gender + '</td>' +
+            '<td>' + p.delivery_type + '</td>' +
+            '<td>' + p.delivery_place + '</td>' +
+            '<td>' + p.sba_present + '</td>' +
+            '<td>' + complications + '</td>' +
             '</tr>';
         });
       }

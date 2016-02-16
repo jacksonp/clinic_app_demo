@@ -164,9 +164,9 @@
 
           <fieldset data-role="controlgroup">
             <legend>Sex</legend>
-            <input name="gender" id="sex-choice-1" value="female" checked="checked" type="radio">
+            <input name="gender" id="sex-choice-1" value="Female" checked="checked" type="radio">
             <label for="sex-choice-1">Female</label>
-            <input name="gender" id="sex-choice-2" value="male" type="radio">
+            <input name="gender" id="sex-choice-2" value="Male" type="radio">
             <label for="sex-choice-2">Male</label>
           </fieldset>
           <div class="ui-field-contain">
@@ -404,22 +404,30 @@
     <div id="pregnancy-container" class="ui-alt-icon">
       <div data-role="collapsible">
         <h4>Pregnancies</h4>
-        <a id="edit-patient-add-pregnancy" href="#pregnancyPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-b">Add
-          Pregnancy</a>
 
         <table data-role="table" id="table-patient-pregnancies" class="ui-responsive table-stroke">
           <thead>
           <tr>
-            <th data-priority="1">Due Date</th>
-            <th data-priority="2">Pre-Pregnancy Weight</th>
+            <th data-priority="1">Delivery Date</th>
+            <th data-priority="1">GA (weeks)</th>
+            <th data-priority="2">Length of Labour</th>
+            <th data-priority="1">Birth Weight</th>
+            <th data-priority="2">Sex</th>
+            <th data-priority="2">Type of Delivery</th>
+            <th data-priority="3">Place of Delivery</th>
+            <th data-priority="3">SBA Present</th>
+            <th data-priority="1">Complications</th>
           </tr>
           </thead>
           <tbody>
           <tr>
-            <td colspan="2">No pregnancies on record.</td>
+            <td colspan="9">No pregnancies on record.</td>
           </tr>
           </tbody>
         </table>
+
+        <a id="edit-patient-add-pregnancy" href="#pregnancyPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-b">Add
+          Pregnancy</a>
 
       </div>
     </div>
