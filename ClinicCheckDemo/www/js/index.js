@@ -114,7 +114,8 @@ function makeUUID () {
     deviceReady         = false,
     domReady            = false,
     editRecordUUID      = 0,
-    editAppointmentUUID = null;
+    editAppointmentUUID = null,
+    editPregnancyIndex  = null;
 
   function setClinic () {
     navigator.notification.prompt('Set the name of the clinic for this tablet.', function (results) {
@@ -259,6 +260,38 @@ function makeUUID () {
       $table.table('refresh');
     }
 
+    $('#edit-patient-add-pregnancy').click(function () {
+      $('#form-save-pregnancy')[0].reset();
+    });
+
+    $('#table-patient-pregnancies').find('tbody').on('click', 'tr', function () {
+
+      editPregnancyIndex = $(this).attr('data-id');
+
+      var
+        patient   = getRecord(editRecordUUID),
+        $form     = $('#form-save-pregnancy'),
+        pregnancy = patient.pregnancies[editPregnancyIndex];
+
+      $.each(pregnancy, function (key, value) {
+        var
+          $input    = $form.find('input[name="' + key + '"]'),
+          inputType = $input.attr('type');
+        if (inputType === 'radio' || inputType === 'checkbox') {
+          $input.each(function () {
+            if ($(this).attr('value') === value) {
+              $(this).attr("checked", value);
+            }
+          });
+        } else {
+          $input.val(value);
+        }
+      });
+
+      $pregnancyPopup.popup('open');
+
+    });
+
     $currentPatientsTBody.on('click', 'tr', function () {
       editRecordUUID = $(this).attr('data-id');
       $.mobile.changePage('#edit-patient');
@@ -301,13 +334,17 @@ function makeUUID () {
         record.pregnancies = [];
       }
       var editFields = {};
+      console.log($(this).serializeArray());
       $.each($(this).serializeArray(), function (_, kv) {
         editFields[kv.name] = kv.value;
       });
-      record.pregnancies.push(editFields);
+      if (editPregnancyIndex) {
+        record.pregnancies[editPregnancyIndex] = editFields;
+      } else {
+        record.pregnancies.push(editFields);
+      }
       saveRecord(editRecordUUID, record);
       updatePregnancyList(record.pregnancies);
-      //this.reset();
       $pregnancyPopup.popup('close');
     });
 
