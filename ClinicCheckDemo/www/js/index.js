@@ -49,6 +49,14 @@ function makeUUID () {
 
   function saveRecord (uuid, record) {
     var recs = getRecords();
+    if (record.pregnancies) { // Just always store these as sorted so we can just use index to reference which to edit.
+      record.pregnancies.sort(function (a, b) {
+        var
+          aa = moment(a.delivery_date || a.due_date),
+          bb = moment(b.delivery_date || b.due_date);
+        return bb.isBefore(aa) ? -1 : 1;
+      });
+    }
     recs[uuid] = record;
     saveRecords(recs);
   }
@@ -234,7 +242,13 @@ function makeUUID () {
       var
         $table = $('#table-patient-pregnancies'),
         html   = '';
+
       if (pregnancies) {
+
+        console.table(pregnancies);
+
+
+
         pregnancies.forEach(function (p, i) {
 
           var complications = p.complications_mother;
@@ -340,7 +354,6 @@ function makeUUID () {
         record.pregnancies = [];
       }
       var editFields = {};
-      console.log($(this).serializeArray());
       $.each($(this).serializeArray(), function (_, kv) {
         editFields[kv.name] = kv.value;
       });
