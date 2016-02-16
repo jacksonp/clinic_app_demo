@@ -303,6 +303,7 @@ function makeUUID () {
           complications += p.complications_newborn;
 
           html += '<tr data-id="' + i + '">' +
+            '<td>' + (pregnancies.length - i) + '</td>' +
             '<td>' + p.delivery_date + '</td>' +
             '<td>' + p.ga_weeks + '</td>' +
             '<td>' + p.labour_length + '</td>' +
