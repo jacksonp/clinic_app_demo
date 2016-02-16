@@ -241,13 +241,27 @@ function makeUUID () {
     function updatePregnancyList (pregnancies) {
       var
         $table = $('#table-patient-pregnancies'),
-        html   = '';
+        html   = '',
+        currentPregnancyHTML = '';
 
       if (pregnancies) {
 
-        console.table(pregnancies);
+        console.table(pregnancies[0]);
 
-
+        if (!pregnancies[0].delivery_date) {
+          currentPregnancyHTML = '<h3>Current Pregnancy</h3>' +
+            '<dl class="inline"><dt>Due Date</dt><dd>' + pregnancies[0].due_date + '</dd>' +
+            '<dt>Pre-pregnancy weight (kg)</dt><dd>' + pregnancies[0].mother_weight + '</dd>' +
+            '<dt>Date of last period</dt><dd>' + pregnancies[0].last_period_date + '</dd>' +
+            '<dt>EDD</dt><dd>' + pregnancies[0].edd + '</dd>' +
+            '<dt>Anemia</dt><dd>' + pregnancies[0].anemia + '</dd>' +
+            '<dt>Hypertension</dt><dd>' + pregnancies[0].hypertension + '</dd>' +
+            '<dt>Diabetes</dt><dd>' + pregnancies[0].diabetes + '</dd>' +
+            '<dt>HIV</dt><dd>' + pregnancies[0].hiv + '</dd>' +
+            '<dt>Malaria</dt><dd>' + pregnancies[0].malaria + '</dd>' +
+            '<dt>Syphilis</dt><dd>' + pregnancies[0].syphilis + '</dd>' +
+            '</dl>'
+        }
 
         pregnancies.forEach(function (p, i) {
 
@@ -262,7 +276,7 @@ function makeUUID () {
             '<td>' + p.ga_weeks + '</td>' +
             '<td>' + p.labour_length + '</td>' +
             '<td>' + p.birth_weight + '</td>' +
-            '<td>' + p.gender + '</td>' +
+            '<td>' + (p.gender || '?') + '</td>' +
             '<td>' + p.delivery_type + '</td>' +
             '<td>' + p.delivery_place + '</td>' +
             '<td>' + p.sba_present + '</td>' +
@@ -270,6 +284,8 @@ function makeUUID () {
             '</tr>';
         });
       }
+
+      $('#current-pregnancy').html(currentPregnancyHTML);
       $table.find('tbody').html(html);
       $table.table('refresh');
     }
