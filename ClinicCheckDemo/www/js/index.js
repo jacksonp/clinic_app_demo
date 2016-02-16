@@ -261,6 +261,7 @@ function makeUUID () {
     }
 
     $('#edit-patient-add-pregnancy').click(function () {
+      editPregnancyIndex = null;
       $('#form-save-pregnancy')[0].reset();
     });
 
