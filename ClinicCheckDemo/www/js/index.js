@@ -168,8 +168,8 @@ function makeUUID () {
       editAppointmentUUID = $(this).attr('data-uuid');
 
       var
-        appointment         = getAppointment(editAppointmentUUID),
-        appointmentStart    = moment(appointment.start);
+        appointment      = getAppointment(editAppointmentUUID),
+        appointmentStart = moment(appointment.start);
 
       $('#health-visit-date').val(appointmentStart.format('YYYY-MM-DD'));
       $('#health-visit-time').val(appointmentStart.format('HH:mm'));
@@ -241,14 +241,24 @@ function makeUUID () {
       $healthVisitPopup.popup('close');
     });
 
-    function updatePregnancyList (pregnancies) {
+    function updatePregnancyList (pregnancies, motherDOB) {
       var
         $table               = $('#table-patient-pregnancies'),
+        ageAtFirstPregnancy  = 'N/A',
         html                 = '',
         currentPregnancyHTML = '',
         pregnancyNumbersHTML = '';
 
       if (pregnancies) {
+
+        var
+          firstPregnancy     = pregnancies[pregnancies.length - 1],
+          firstPregnancyDate = firstPregnancy.delivery_date || firstPregnancy.due_date || firstPregnancy.last_period_date;
+        if (firstPregnancyDate) {
+          firstPregnancyDate = moment(firstPregnancyDate);
+          var motherDOB = moment(motherDOB);
+          ageAtFirstPregnancy = firstPregnancyDate.diff(moment(motherDOB), 'years')
+        }
 
         if (!pregnancies[0].delivery_date && !pregnancies[0]['add-pregnancy-outcome']) {
           currentPregnancyHTML = '<h3>Current Pregnancy</h3>' +
@@ -333,6 +343,7 @@ function makeUUID () {
 
       }
 
+      $('#age-at-first-pregnancy').text(ageAtFirstPregnancy);
       $('#current-pregnancy').html(currentPregnancyHTML);
       $('#pregnancy-numbers').html(pregnancyNumbersHTML);
       $table.find('tbody').html(html);
@@ -430,7 +441,7 @@ function makeUUID () {
         record.pregnancies.push(editFields);
       }
       saveRecord(editRecordUUID, record);
-      updatePregnancyList(record.pregnancies);
+      updatePregnancyList(record.pregnancies, record.dob);
       $pregnancyPopup.popup('close');
     });
 
@@ -519,7 +530,7 @@ function makeUUID () {
           if (isMale || editRecord.puberty === 'No') {
             $('#pregnancy-container').hide();
           } else {
-            updatePregnancyList(editRecord.pregnancies);
+            updatePregnancyList(editRecord.pregnancies, editRecord.dob);
             $('#pregnancy-container').show();
           }
 
