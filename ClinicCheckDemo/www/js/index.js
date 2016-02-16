@@ -164,8 +164,10 @@ function makeUUID () {
 
 
     $('#patient-appointments').delegate('a', 'click', function () {
+
+      editAppointmentUUID = $(this).attr('data-uuid');
+
       var
-        editAppointmentUUID = $(this).attr('data-uuid'),
         appointment         = getAppointment(editAppointmentUUID),
         appointmentStart    = moment(appointment.start);
 
@@ -219,6 +221,7 @@ function makeUUID () {
           start      : moment(dateTime).toISOString(),
           allDay     : false
         };
+
       if (!editAppointmentUUID) {
         addAppointment(event);
       } else {
