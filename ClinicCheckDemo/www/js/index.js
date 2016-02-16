@@ -240,15 +240,14 @@ function makeUUID () {
 
     function updatePregnancyList (pregnancies) {
       var
-        $table = $('#table-patient-pregnancies'),
-        html   = '',
-        currentPregnancyHTML = '';
+        $table               = $('#table-patient-pregnancies'),
+        html                 = '',
+        currentPregnancyHTML = '',
+        pregnancyNumbersHTML = '';
 
       if (pregnancies) {
 
-        console.table(pregnancies[0]);
-
-        if (!pregnancies[0].delivery_date) {
+        if (!pregnancies[0].delivery_date && !pregnancies[0]['add-pregnancy-outcome']) {
           currentPregnancyHTML = '<h3>Current Pregnancy</h3>' +
             '<dl class="inline"><dt>Due Date</dt><dd>' + pregnancies[0].due_date + '</dd>' +
             '<dt>Pre-pregnancy weight (kg)</dt><dd>' + pregnancies[0].mother_weight + '</dd>' +
@@ -263,7 +262,39 @@ function makeUUID () {
             '</dl>'
         }
 
+        var
+          numFullTerm          = 0,
+          numPremature         = 0,
+          inducedAbortions     = 0,
+          spontaneousAbortions = 0,
+          numEctopic           = 0,
+          numMultiBirths       = 0,
+          numLiving            = 0;
+
         pregnancies.forEach(function (p, i) {
+
+          if (p.ga_weeks) {
+            if (p.ga_weeks >= 37) {
+              numFullTerm += 1;
+            } else {
+              numPremature += 1;
+            }
+          }
+
+          if (p['add-pregnancy-outcome'] === 'Abortion - Induced') {
+            inducedAbortions += 1;
+          } else if (p['add-pregnancy-outcome'] === 'Abortion - Spontaneous') {
+            spontaneousAbortions += 1;
+          } else if (p['add-pregnancy-outcome'] === 'Living') {
+            numLiving += 1;
+          }
+
+          if (p['add-pregnancy-ectopic'] === 'on') {
+            numEctopic += 1;
+          }
+          if (p['add-pregnancy-multiple-births'] === 'on') {
+            numMultiBirths += 1;
+          }
 
           var complications = p.complications_mother;
           if (complications) {
@@ -283,9 +314,23 @@ function makeUUID () {
             '<td>' + complications + '</td>' +
             '</tr>';
         });
+
+        pregnancyNumbersHTML = '<h3>Number of Pregnancies</h3>' +
+          '<dl class="inline"><dt>Total</dt><dd>' + pregnancies.length + '</dd>' +
+          '<dt>Full-term</dt><dd>' + numFullTerm + '</dd>' +
+          '<dt>Premature</dt><dd>' + numPremature + '</dd>' +
+          '<dt>Abortions - Induced</dt><dd>' + inducedAbortions + '</dd>' +
+          '<dt>Abortions - Spontaneous</dt><dd>' + spontaneousAbortions + '</dd>' +
+          '<dt>Ectopic</dt><dd>' + numEctopic + '</dd>' +
+          '<dt>Multiple Births</dt><dd>' + numMultiBirths + '</dd>' +
+          '<dt>Living</dt><dd>' + numLiving + '</dd>' +
+          '</dl>';
+
+
       }
 
       $('#current-pregnancy').html(currentPregnancyHTML);
+      $('#pregnancy-numbers').html(pregnancyNumbersHTML);
       $table.find('tbody').html(html);
       $table.table('refresh');
     }
@@ -303,6 +348,8 @@ function makeUUID () {
         patient   = getRecord(editRecordUUID),
         $form     = $('#form-save-pregnancy'),
         pregnancy = patient.pregnancies[editPregnancyIndex];
+
+      $form[0].reset();
 
       $.each(pregnancy, function (key, value) {
         var
