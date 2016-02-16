@@ -280,21 +280,22 @@ function makeUUID () {
       $('#add-appointment-patient-select').val($('#edit-patient').find('h1').text()).selectmenu('refresh');
     });
 
-    $('#form-add-pregnancy').submit(function (e) {
+    $('#form-save-pregnancy').submit(function (e) {
       e.preventDefault();
       var record = getRecord(editRecordUUID);
       if (!record.pregnancies) {
         record.pregnancies = [];
       }
-      record.pregnancies.push({
-        due_date     : $('#add-pregnancy-due-date').val(),
-        mother_weight: $('#add-pregnancy-mother-weight').val()
+      var editFields = {};
+      $.each($(this).serializeArray(), function (_, kv) {
+        editFields[kv.name] = kv.value;
       });
+      record.pregnancies.push(editFields);
       saveRecord(editRecordUUID, record);
       updatePregnancyList(record.pregnancies);
-      this.reset();
+      //this.reset();
+      $pregnancyPopup.popup('close');
     });
-
 
     $('#add-appointment-time').click(function (e) {
       e.preventDefault();

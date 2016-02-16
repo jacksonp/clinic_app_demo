@@ -62,7 +62,7 @@
 </div>
 
 <div id="pregnancyPopup" data-theme="a" data-dismissible="false">
-  <form data-ajax="false">
+  <form id="form-save-pregnancy" data-ajax="false">
     <div style="padding:10px 20px;">
 
       <h3>Antenatal</h3>
@@ -404,28 +404,23 @@
     <div id="pregnancy-container" class="ui-alt-icon">
       <div data-role="collapsible">
         <h4>Pregnancies</h4>
-        <div class="ui-grid-a my-breakpoint">
-          <div class="ui-block-a" style="padding-right: 1em">
-            <p><strong>Pregnancies on Record</strong></p>
-            <table data-role="table" id="table-patient-pregnancies" class="ui-responsive table-stroke">
-              <thead>
-              <tr>
-                <th data-priority="1">Due Date</th>
-                <th data-priority="2">Pre-Pregnancy Weight</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td colspan="2">No pregnancies on record.</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="ui-block-b" style="padding-right: 1em">
-            <a id="edit-patient-add-pregnancy" href="#pregnancyPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-b">Add
-              Pregnancy</a>
-          </div>
-        </div>
+        <a id="edit-patient-add-pregnancy" href="#pregnancyPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-btn-b">Add
+          Pregnancy</a>
+
+        <table data-role="table" id="table-patient-pregnancies" class="ui-responsive table-stroke">
+          <thead>
+          <tr>
+            <th data-priority="1">Due Date</th>
+            <th data-priority="2">Pre-Pregnancy Weight</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="2">No pregnancies on record.</td>
+          </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
 
