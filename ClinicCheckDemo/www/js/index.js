@@ -277,12 +277,17 @@ function makeUUID () {
         var
           $input    = $form.find('input[name="' + key + '"]'),
           inputType = $input.attr('type');
-        if (inputType === 'radio' || inputType === 'checkbox') {
+
+        if (inputType === 'radio') {
           $input.each(function () {
             if ($(this).attr('value') === value) {
-              $(this).attr("checked", value);
+              $(this).prop('checked', true).checkboxradio('refresh');
             }
           });
+        } else if (inputType === 'checkbox') {
+          if (value === 'on') {
+            $input.prop('checked', true).checkboxradio('refresh');
+          }
         } else {
           $input.val(value);
         }
