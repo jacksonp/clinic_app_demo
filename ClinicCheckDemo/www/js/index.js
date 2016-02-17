@@ -17,10 +17,6 @@ function makeUUID () {
 (function () {
   'use strict';
 
-
-  $('input[type="date"]').val(moment().format('YYYY-MM-DD'));
-
-
   //<editor-fold desc="Patient records in localStorage fns">
   function getRecords () {
     return JSON.parse(localStorage.records);
@@ -32,8 +28,6 @@ function makeUUID () {
 
   function addRecord (record) {
     record.healthcare_provider = 'Dr Jones';
-    var age = moment().diff(record.dob, 'years');
-    record.puberty = age >= 12 ? 'Yes' : 'No';
     var
       uuid = makeUUID(),
       recs = getRecords();
@@ -52,8 +46,8 @@ function makeUUID () {
     if (record.pregnancies) { // Just always store these as sorted so we can just use index to reference which to edit.
       record.pregnancies.sort(function (a, b) {
         var
-          aa = moment(a.delivery_date || a.due_date),
-          bb = moment(b.delivery_date || b.due_date);
+          aa = moment(a.delivery_date || a.edd),
+          bb = moment(b.delivery_date || b.edd);
         return bb.isBefore(aa) ? -1 : 1;
       });
     }
@@ -262,7 +256,7 @@ function makeUUID () {
 
         if (!pregnancies[0].delivery_date && !pregnancies[0]['add-pregnancy-outcome']) {
           currentPregnancyHTML = '<h3>Current Pregnancy</h3>' +
-            '<dl class="inline"><dt>Due Date</dt><dd>' + pregnancies[0].due_date + '</dd>' +
+            '<dl class="inline">' +
             '<dt>Pre-pregnancy weight (kg)</dt><dd>' + pregnancies[0].mother_weight + '</dd>' +
             '<dt>Date of last period</dt><dd>' + pregnancies[0].last_period_date + '</dd>' +
             '<dt>EDD</dt><dd>' + pregnancies[0].edd + '</dd>' +
@@ -527,7 +521,7 @@ function makeUUID () {
             name       = editRecord.first_name + ' ' + editRecord.last_name,
             isMale     = editRecord.gender === 'male';
 
-          if (isMale || editRecord.puberty === 'No') {
+          if (isMale) {
             $('#pregnancy-container').hide();
           } else {
             updatePregnancyList(editRecord.pregnancies, editRecord.dob);
@@ -547,7 +541,6 @@ function makeUUID () {
           $editPage.find('#edit-phone').val(editRecord.phone);
           $editPage.find('#edit-village').val(editRecord.village);
           $editPage.find('#edit-family').val(editRecord.family);
-          $editPage.find('#edit-puberty').val(editRecord.puberty).slider('refresh');
           $editPage.find('#edit-hiv').val(editRecord.hiv);
           $editPage.find('#edit-health-issues').val(editRecord.health_issues);
           $editPage.find('#edit-medication').val(editRecord.medication);
