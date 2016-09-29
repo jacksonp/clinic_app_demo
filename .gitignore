@@ -1,2 +1,5 @@
 .idea/
-platforms/
+ClinicCheckDemo/platforms/
+ClinicCheckDemo/plugins/
+bower_components/
+jquery.mobile-1.4.5/
